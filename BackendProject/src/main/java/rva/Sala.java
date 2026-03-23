@@ -1,25 +1,47 @@
 package rva;
 
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+
+@Entity
 public class Sala {
 
-	private int id;
+	@Id
+	@SequenceGenerator(name = "sala_seq", sequenceName = "sala_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sala_seq")
+
+	private long id;
 	private int kapacitet;
 	private int brojRedova;
-	private Bioskop idBioskop;
 
-	public Sala(int id, int kapacitet, int brojRedova, Bioskop idBioskop) {
+	@ManyToOne
+	@JoinColumn(name = "id_bioskop")
+	private Bioskop bioskop;
+
+	@OneToMany(mappedBy = "sala")
+	private List<Rezervacija> rezervacije;
+
+	public Sala(long id, int kapacitet, int brojRedova, Bioskop bioskop) {
 
 		this.id = id;
 		this.kapacitet = kapacitet;
 		this.brojRedova = brojRedova;
-		this.idBioskop = idBioskop;
+		this.bioskop = bioskop;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -39,12 +61,12 @@ public class Sala {
 		this.brojRedova = brojRedova;
 	}
 
-	public Bioskop getIdBioskop() {
-		return idBioskop;
+	public Bioskop getBioskop() {
+		return bioskop;
 	}
 
-	public void setIdBioskop(Bioskop idBioskop) {
-		this.idBioskop = idBioskop;
+	public void setBioskop(Bioskop bioskop) {
+		this.bioskop = bioskop;
 	}
 
 }

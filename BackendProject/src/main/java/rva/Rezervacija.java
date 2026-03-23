@@ -2,32 +2,51 @@ package rva;
 
 import java.sql.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+
+@Entity
 public class Rezervacija {
 
-	private int id;
+	@Id  
+	@SequenceGenerator(name="rezervacija_seq",sequenceName="rezervacija_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="rezervacija_seq")
+	
+	private long id;
 	private int brojOsoba;
 	private int cenaKarte;
 	private Date datum;
 	private boolean placeno;
-	private Film idFilm;
-	private Sala idSala;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_film")
+	private Film film;
 
-	public Rezervacija(int id, int brojOsoba, int cenaKarte, Date datum, boolean placeno, Film idFilm, Sala idSala) {
+	@ManyToOne
+	@JoinColumn(name = "id_sala")
+	private Sala sala;
+
+	public Rezervacija(long id, int brojOsoba, int cenaKarte, Date datum, boolean placeno, Film film, Sala sala) {
 
 		this.id = id;
 		this.brojOsoba = brojOsoba;
 		this.cenaKarte = cenaKarte;
 		this.datum = datum;
 		this.placeno = placeno;
-		this.idFilm = idFilm;
-		this.idSala = idSala;
+		this.film = film;
+		this.sala = sala;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -63,20 +82,20 @@ public class Rezervacija {
 		this.placeno = placeno;
 	}
 
-	public Film getIdFilm() {
-		return idFilm;
+	public Film getFilm() {
+		return film;
 	}
 
-	public void setIdFilm(Film idFilm) {
-		this.idFilm = idFilm;
+	public void setFilm(Film film) {
+		this.film = film;
 	}
 
-	public Sala getIdSala() {
-		return idSala;
+	public Sala getSala() {
+		return sala;
 	}
 
-	public void setIdSala(Sala idSala) {
-		this.idSala = idSala;
+	public void setIdSala(Sala sala) {
+		this.sala = sala;
 	}
 
 }
