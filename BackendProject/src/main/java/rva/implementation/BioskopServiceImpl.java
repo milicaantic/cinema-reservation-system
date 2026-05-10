@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import rva.model.Bioskop;
 import rva.repository.BioskopRepository;
 import rva.service.BioskopService;
 
-@Service
+@Component
 public class BioskopServiceImpl implements BioskopService {
 
     @Autowired

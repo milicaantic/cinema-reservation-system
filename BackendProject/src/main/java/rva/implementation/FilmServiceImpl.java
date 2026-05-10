@@ -3,13 +3,13 @@ package rva.implementation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import rva.model.Film;
 import rva.repository.FilmRepository;
 import rva.service.FilmService;
 
-@Service
+@Component
 public class FilmServiceImpl implements FilmService {
 
     @Autowired
