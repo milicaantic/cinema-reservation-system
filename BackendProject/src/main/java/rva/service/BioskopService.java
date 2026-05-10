@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import rva.model.Bioskop;
 
-
+ 
 public interface BioskopService  extends CrudService<Bioskop, Long>  {
 	
 	List<Bioskop> findByNaziv(String naziv);
