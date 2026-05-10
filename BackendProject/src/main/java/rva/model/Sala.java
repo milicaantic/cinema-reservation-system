@@ -1,4 +1,4 @@
-package rva;
+package rva.model;
 
 import java.util.List;
 
@@ -28,6 +28,18 @@ public class Sala {
 
 	@OneToMany(mappedBy = "sala")
 	private List<Rezervacija> rezervacije;
+	
+	public Sala() {
+
+	}
+
+	public List<Rezervacija> getRezervacije() {
+	    return rezervacije;
+	}
+
+	public void setRezervacije(List<Rezervacija> rezervacije) {
+	    this.rezervacije = rezervacije;
+	}
 
 	public Sala(long id, int kapacitet, int brojRedova, Bioskop bioskop) {
 

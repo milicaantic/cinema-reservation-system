@@ -1,4 +1,4 @@
-package rva;
+package rva.model;
 
 import java.sql.Date;
 
@@ -31,6 +31,9 @@ public class Rezervacija {
 	@JoinColumn(name = "id_sala")
 	private Sala sala;
 
+	public Rezervacija() {
+		
+	}
 	public Rezervacija(long id, int brojOsoba, int cenaKarte, Date datum, boolean placeno, Film film, Sala sala) {
 
 		this.id = id;
@@ -94,7 +97,7 @@ public class Rezervacija {
 		return sala;
 	}
 
-	public void setIdSala(Sala sala) {
+	public void setSala(Sala sala) {
 		this.sala = sala;
 	}
 

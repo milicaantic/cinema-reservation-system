@@ -1,4 +1,4 @@
-package rva;
+package rva.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,12 +17,17 @@ public class Film {
 	private int recenzija;
 	private int trajanje;
 	private String zanr;
+	
+	public Film() {
 
-	public Film(long id, String naziv, int recenzija, String zanr) {
-		this.id = id;
-		this.naziv = naziv;
-		this.recenzija = recenzija;
-		this.zanr = zanr;
+	}
+
+	public Film(long id, String naziv, int recenzija, int trajanje, String zanr) {
+	    this.id = id;
+	    this.naziv = naziv;
+	    this.recenzija = recenzija;
+	    this.trajanje = trajanje;
+	    this.zanr = zanr;
 	}
 
 	public long getId() {

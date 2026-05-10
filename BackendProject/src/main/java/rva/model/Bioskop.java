@@ -1,4 +1,4 @@
-package rva;
+package rva.model;
 
 import java.util.List;
 
@@ -22,6 +22,18 @@ public class Bioskop {
 
 	@OneToMany(mappedBy = "bioskop")
 	private List<Sala> sale;
+	
+	public Bioskop() {
+
+	}
+
+	public List<Sala> getSale() {
+	    return sale;
+	}
+
+	public void setSale(List<Sala> sale) {
+	    this.sale = sale;
+	}
 
 	public Bioskop(long id, String naziv, String adresa) {
 		this.id = id;
