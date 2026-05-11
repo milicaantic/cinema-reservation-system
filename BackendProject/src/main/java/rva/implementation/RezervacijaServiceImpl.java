@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import rva.model.Rezervacija;
 import rva.repository.RezervacijaRepository;
 import rva.service.RezervacijaService;
@@ -37,15 +38,26 @@ public class RezervacijaServiceImpl implements RezervacijaService {
     }
 
     @Override
-    public Rezervacija update(Rezervacija rezervacija) {
+    @Transactional
+    public Rezervacija update(Rezervacija r) {
 
-        if (rezervacijaRepository.existsById(rezervacija.getId())) {
-            return rezervacijaRepository.save(rezervacija);
+        Rezervacija existing = rezervacijaRepository.findById(r.getId())
+                .orElse(null);
+
+        if (existing == null) {
+            return null;
         }
 
-        throw new RuntimeException("Rezervacija not found");
-    }
+        existing.setBrojOsoba(r.getBrojOsoba());
+        existing.setCenaKarte(r.getCenaKarte());
+        existing.setDatum(r.getDatum());
+        existing.setPlaceno(r.isPlaceno());
 
+        existing.setFilm(r.getFilm());
+        existing.setSala(r.getSala());
+
+        return rezervacijaRepository.save(existing);
+    }
     @Override
     public void delete(Long id) {
         rezervacijaRepository.deleteById(id);
