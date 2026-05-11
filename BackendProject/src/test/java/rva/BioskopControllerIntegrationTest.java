@@ -16,6 +16,7 @@ import rva.model.Bioskop;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BioskopControllerIntegrationTest {
 
+	
     static RestTemplate template = new RestTemplate();
     static String apiUrl = "http://localhost:8080/bioskop";
     static long largestId = 0;
@@ -90,5 +91,46 @@ class BioskopControllerIntegrationTest {
                 HttpMethod.DELETE, null, Object.class);
 
         assertEquals(200, response.getStatusCode().value());
+    }
+    @Test
+    @Order(6)
+    void findByNaziv() {
+
+        Bioskop b = new Bioskop();
+        b.setNaziv("TestFind");
+        b.setAdresa("Adresa");
+
+        HttpEntity<Bioskop> entity = new HttpEntity<>(b);
+
+        template.exchange(apiUrl, HttpMethod.POST, entity, Bioskop.class);
+
+        ResponseEntity<List<Bioskop>> response = template.exchange(
+                apiUrl + "/naziv/TestFind",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Bioskop>>() {}
+        );
+
+        assertEquals(200, response.getStatusCode().value());
+        assertFalse(response.getBody().isEmpty());
+    } @Test
+    @Order(7)
+    void findByAdresa() {
+
+        Bioskop b = new Bioskop();
+        b.setNaziv("AdresaTest");
+        b.setAdresa("Novi Sad Centar");
+
+        template.exchange(apiUrl, HttpMethod.POST, new HttpEntity<>(b), Bioskop.class);
+
+        ResponseEntity<List<Bioskop>> response = template.exchange(
+                apiUrl + "/adresa/Novi Sad",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Bioskop>>() {}
+        );
+
+        assertEquals(200, response.getStatusCode().value());
+        assertFalse(response.getBody().isEmpty());
     }
 }

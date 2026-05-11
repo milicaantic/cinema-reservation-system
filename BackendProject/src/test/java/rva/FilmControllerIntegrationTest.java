@@ -29,9 +29,80 @@ class FilmControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
     }
-
     @Test
     @Order(2)
+    void getById() {
+
+        ResponseEntity<List<Film>> all = template.exchange(
+                apiUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Film>>() {});
+
+        Film first = all.getBody().get(0);
+        long id = first.getId();
+
+        ResponseEntity<Film> response = template.exchange(
+                apiUrl + "/" + id,
+                HttpMethod.GET,
+                null,
+                Film.class);
+
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(id, response.getBody().getId());
+    }
+    @Test
+    @Order(3)
+    void findByNaziv() {
+
+        ResponseEntity<List<Film>> response = template.exchange(
+                apiUrl + "/naziv/Film",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Film>>() {});
+
+        assertTrue(
+            response.getStatusCode().value() == 200 ||
+            response.getStatusCode().value() == 204
+        );
+
+        if (response.getStatusCode().value() == 200) {
+            assertFalse(response.getBody().isEmpty());
+        }
+    }
+    @Test
+    @Order(4)
+    void findByZanr() {
+
+        ResponseEntity<List<Film>> response = template.exchange(
+                apiUrl + "/zanr/Akcija",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Film>>() {});
+
+        assertTrue(
+            response.getStatusCode().value() == 200 ||
+            response.getStatusCode().value() == 204
+        );
+
+        if (response.getStatusCode().value() == 200) {
+            assertFalse(response.getBody().isEmpty());
+        }
+    }
+    @Test
+    @Order(5)
+    void findByRecenzija() {
+
+        ResponseEntity<List<Film>> response = template.exchange(
+                apiUrl + "/recenzija/1",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Film>>() {});
+
+        assertEquals(200, response.getStatusCode().value());
+    }
+    @Test
+    @Order(6)
     void create() {
         Film f = new Film();
         f.setNaziv("Film");
@@ -51,7 +122,7 @@ class FilmControllerIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(7)
     void update() {
         Film f = new Film();
         f.setId(largestId);
@@ -70,7 +141,7 @@ class FilmControllerIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(8)
     void delete() {
         ResponseEntity<Object> response = template.exchange(
                 apiUrl + "/" + largestId,

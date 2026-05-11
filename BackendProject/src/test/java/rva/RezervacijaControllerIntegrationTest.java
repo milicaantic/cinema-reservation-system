@@ -122,4 +122,58 @@ class RezervacijaControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
     }
+    @Test
+    @Order(5)
+    void findByPlaceno() {
+
+        ResponseEntity<List<Rezervacija>> response = template.exchange(
+                apiUrl + "/placeno/true",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Rezervacija>>() {}
+        );
+
+        assertTrue(
+                response.getStatusCode().value() == 200 ||
+                response.getStatusCode().value() == 204
+        );
+
+        if (response.getStatusCode().value() == 200) {
+            assertNotNull(response.getBody());
+        }
+    }
+    @Test
+    @Order(6)
+    void findByDatum() {
+
+        Date today = new Date(System.currentTimeMillis());
+
+        ResponseEntity<List<Rezervacija>> response = template.exchange(
+                apiUrl + "/datum/" + today,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Rezervacija>>() {}
+        );
+
+        assertTrue(
+                response.getStatusCode().value() == 200 ||
+                response.getStatusCode().value() == 204
+        );
+    }
+    @Test
+    @Order(7)
+    void findByBrojOsoba() {
+
+        ResponseEntity<List<Rezervacija>> response = template.exchange(
+                apiUrl + "/osobe/1",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Rezervacija>>() {}
+        );
+
+        assertTrue(
+                response.getStatusCode().value() == 200 ||
+                response.getStatusCode().value() == 204
+        );
+    }
 }

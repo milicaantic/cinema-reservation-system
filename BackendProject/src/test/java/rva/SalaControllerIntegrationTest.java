@@ -19,7 +19,7 @@ class SalaControllerIntegrationTest {
 
     static RestTemplate template = new RestTemplate();
     static String apiUrl = "http://localhost:8080/sala";
-    static long largestId = 0;
+    static long largestId ;
 
     @Test
     @Order(1)
@@ -30,7 +30,7 @@ class SalaControllerIntegrationTest {
         s.setBrojRedova(10);
 
         Bioskop b = new Bioskop();
-        b.setId(1); // mora postojati u bazi
+        b.setId(1L);
 
         s.setBioskop(b);
 
@@ -52,8 +52,8 @@ class SalaControllerIntegrationTest {
                 apiUrl, HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Sala>>() {});
 
-        assertEquals(200, response.getStatusCode().value());
-    }
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertNotNull(response.getBody());    }
 
     @Test
     @Order(3)
@@ -86,5 +86,46 @@ class SalaControllerIntegrationTest {
                 Object.class);
 
         assertEquals(200, response.getStatusCode().value());
+    }
+    void getById() {
+
+        ResponseEntity<Sala> response = template.exchange(
+                apiUrl + "/" + largestId,
+                HttpMethod.GET,
+                null,
+                Sala.class
+        );
+
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals(largestId, response.getBody().getId());
+    }
+
+    @Test
+    @Order(6)
+    void findByKapacitet() {
+
+        ResponseEntity<List<Sala>> response = template.exchange(
+                apiUrl + "/kapacitet/50",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Sala>>() {}
+        );
+
+        assertEquals(200, response.getStatusCode().value());
+    }
+    @Test
+    @Order(7)
+    void findByBrojRedova() {
+
+        ResponseEntity<List<Sala>> response = template.exchange(
+                apiUrl + "/redovi/10",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Sala>>() {}
+        );
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertNotNull(response.getBody());
     }
 }
