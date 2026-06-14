@@ -13,7 +13,7 @@ import rva.service.RezervacijaService;
 
 @RestController
 @RequestMapping("/rezervacija")
-@CrossOrigin
+@CrossOrigin (origins = "http://localhost:4200")
 public class RezervacijaController {
 
     @Autowired

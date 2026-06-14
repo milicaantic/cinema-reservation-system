@@ -12,7 +12,7 @@ import rva.service.BioskopService;
 
 @RestController
 @RequestMapping("/bioskop")
-@CrossOrigin
+@CrossOrigin (origins = "http://localhost:4200")
 public class BioskopController {
 
     @Autowired

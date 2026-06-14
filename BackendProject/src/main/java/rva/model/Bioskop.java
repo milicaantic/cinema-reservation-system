@@ -23,8 +23,8 @@ public class Bioskop {
 	private String naziv;
 	private String adresa;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "bioskop")
+	@JsonIgnore
 	private List<Sala> sale;
 	
 	public Bioskop() {

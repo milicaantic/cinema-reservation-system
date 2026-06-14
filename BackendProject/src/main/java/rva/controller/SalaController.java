@@ -12,7 +12,7 @@ import rva.service.SalaService;
 
 @RestController
 @RequestMapping("/sala")
-@CrossOrigin
+@CrossOrigin (origins = "http://localhost:4200")
 public class SalaController {
 
     @Autowired

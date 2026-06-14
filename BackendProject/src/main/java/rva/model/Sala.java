@@ -27,9 +27,9 @@ public class Sala {
 	private int kapacitet;
 	private int brojRedova;
 	
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_bioskop")
+	@JsonIgnoreProperties("sale")
 	private Bioskop bioskop;
 
 	@JsonIgnore

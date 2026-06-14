@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,10 +29,12 @@ public class Rezervacija {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_film")
+	@JsonIgnoreProperties("rezervacije")
 	private Film film;
 
 	@ManyToOne
 	@JoinColumn(name = "id_sala")
+	@JsonIgnoreProperties("rezervacije")
 	private Sala sala;
 
 	public Rezervacija() {
