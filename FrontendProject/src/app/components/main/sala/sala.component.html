@@ -1,0 +1,100 @@
+<div class="container mat-elevation-z8" style="padding: 15px; margin-bottom: 30px;">
+  <div style="margin-bottom: 15px;">
+    <button mat-raised-button color="primary" (click)="otvoriDialog(1)">
+      <mat-icon>add</mat-icon> Dodaj Salu
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" style="width: 100%;">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID (Broj Sale) </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="kapacitet">
+      <th mat-header-cell *matHeaderCellDef> Kapacitet </th>
+      <td mat-cell *matCellDef="let element"> {{element.kapacitet}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="brojRedova">
+      <th mat-header-cell *matHeaderCellDef> Broj redova </th>
+      <td mat-cell *matCellDef="let element"> {{element.brojRedova}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bioskop">
+      <th mat-header-cell *matHeaderCellDef> Bioskop </th>
+      <td mat-cell *matCellDef="let element"> {{element.bioskop?.naziv}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Akcije </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent" (click)="$event.stopPropagation(); otvoriDialog(2, element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="$event.stopPropagation(); otvoriDialog(3, element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+        (click)="izaberiSalu(row)"
+        [ngClass]="{'selektovan-red': selektovanaSala?.id === row.id}"
+        style="cursor: pointer;">
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="selektovanaSala" class="container mat-elevation-z8" style="padding: 15px; background-color: #fafafa;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h3>Rezervacije za salu broj: <span style="color: #3f51b5;">{{selektovanaSala.id}}</span></h3>
+    <button mat-icon-button color="warn" (click)="selektovanaSala = null">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="rezervacijeZaSalu.length === 0" style="padding: 20px; text-align: center; color: gray;">
+    Nema registrovanih rezervacija za ovu salu.
+  </div>
+
+  <table mat-table [dataSource]="rezervacijeZaSalu" *ngIf="rezervacijeZaSalu.length > 0" style="width: 100%; margin-top: 10px;">
+    
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID Rezervacije </th>
+      <td mat-cell *matCellDef="let rez"> {{rez.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="datum">
+      <th mat-header-cell *matHeaderCellDef> Datum </th>
+      <td mat-cell *matCellDef="let rez"> {{formatirajDatum(rez.datum)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="brojOsoba">
+      <th mat-header-cell *matHeaderCellDef> Broj osoba </th>
+      <td mat-cell *matCellDef="let rez"> {{rez.brojOsoba}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cenaKarte">
+      <th mat-header-cell *matHeaderCellDef> Cena karte </th>
+      <td mat-cell *matCellDef="let rez"> {{rez.cenaKarte}} RSD </td>
+    </ng-container>
+
+    <ng-container matColumnDef="film">
+      <th mat-header-cell *matHeaderCellDef> Film </th>
+      <td mat-cell *matCellDef="let rez"> {{rez.film?.naziv}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Plaćeno </th>
+      <td mat-cell *matCellDef="let rez">
+        <mat-icon *ngIf="rez.placeno" style="color: green;">check_circle</mat-icon>
+        <mat-icon *ngIf="!rez.placeno" style="color: red;">cancel</mat-icon>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="rezervacijeColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: rezervacijeColumns;"></tr>
+  </table>
+</div>

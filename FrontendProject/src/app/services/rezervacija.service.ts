@@ -16,7 +16,7 @@ export class RezervacijaService {
   }
 
   getById(id: number): Observable<Rezervacija> {
-    return this.http.get<Rezervacija>('${this.apiUrl}/${id}');
+    return this.http.get<Rezervacija>(`${this.apiUrl}/${id}`);
   }
 
   create(rezervacija: Rezervacija): Observable<Rezervacija> {
@@ -25,10 +25,10 @@ export class RezervacijaService {
 
   // Ovde saljemo i ID u URL-u jer tako zahteva tvoj RezervacijaController
   update(rezervacija: Rezervacija): Observable<Rezervacija> {
-    return this.http.put<Rezervacija>('${this.apiUrl}/${rezervacija.id}', rezervacija);
+    return this.http.put<Rezervacija>(`${this.apiUrl}/${rezervacija.id}`, rezervacija);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>('${this.apiUrl}/${id}');
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -17,7 +17,7 @@ export class FilmService {
   }
 
   getById(id: number): Observable<Film> {
-    return this.http.get<Film>('${this.apiUrl}/${id}');
+    return this.http.get<Film>(`${this.apiUrl}/${id}`);
   }
 
   create(film: Film): Observable<Film> {

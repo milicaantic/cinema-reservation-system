@@ -1,0 +1,64 @@
+<div class="container mat-elevation-z8" style="padding: 15px;">
+  
+  <div style="margin-bottom: 15px;">
+    <button mat-raised-button color="primary" (click)="otvoriDialog(1)">
+      <mat-icon>add</mat-icon> Dodaj Rezervaciju
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" style="width: 100%;">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="datum">
+      <th mat-header-cell *matHeaderCellDef> Datum i vreme </th>
+      <td mat-cell *matCellDef="let element"> {{ formatirajDatum(element.datum) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="brojOsoba">
+      <th mat-header-cell *matHeaderCellDef> Broj osoba </th>
+      <td mat-cell *matCellDef="let element"> {{element.brojOsoba}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cenaKarte">
+      <th mat-header-cell *matHeaderCellDef> Cena karte </th>
+      <td mat-cell *matCellDef="let element"> {{element.cenaKarte}} RSD </td>
+    </ng-container>
+
+    <ng-container matColumnDef="placeno">
+      <th mat-header-cell *matHeaderCellDef> Plaćeno </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon *ngIf="element.placeno" style="color: green; vertical-align: middle;">check_circle</mat-icon>
+        <mat-icon *ngIf="!element.placeno" style="color: red; vertical-align: middle;">cancel</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="film">
+      <th mat-header-cell *matHeaderCellDef> Film </th>
+      <td mat-cell *matCellDef="let element"> {{element.film?.naziv}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sala">
+      <th mat-header-cell *matHeaderCellDef> Sala ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.sala?.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Akcije </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent" (click)="$event.stopPropagation(); otvoriDialog(2, element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="$event.stopPropagation(); otvoriDialog(3, element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="tabela-red"></tr>
+  </table>
+</div>

@@ -16,7 +16,7 @@ export class SalaService {
   }
 
   getById(id: number): Observable<Sala> {
-    return this.http.get<Sala>('${this.apiUrl}/${id}');
+    return this.http.get<Sala>(`${this.apiUrl}/${id}`);
   }
 
   create(sala: Sala): Observable<Sala> {
@@ -28,6 +28,6 @@ export class SalaService {
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>('${this.apiUrl}/${id}');
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -1,0 +1,9 @@
+.container {
+  margin: 20px;
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+}

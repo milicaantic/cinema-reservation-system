@@ -1,0 +1,54 @@
+<div class="container">
+  <h3 mat-dialog-title *ngIf="flag === 1">Dodavanje rezervacije</h3>
+  <h3 mat-dialog-title *ngIf="flag === 2">Modifikacija rezervacije: {{data.id}}</h3>
+  <h3 mat-dialog-title *ngIf="flag === 3">Brisanje rezervacije: {{data.id}}</h3>
+
+  <div mat-dialog-content>
+    <form #forma="ngForm">
+      
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <mat-label>Datum i vreme</mat-label>
+        <input matInput type="datetime-local" [(ngModel)]="data.datum" name="datum" [disabled]="flag === 3" required>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <input matInput type="number" placeholder="Broj osoba" [(ngModel)]="data.brojOsoba" name="brojOsoba" [disabled]="flag === 3" required>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <input matInput type="number" placeholder="Cena karte" [(ngModel)]="data.cenaKarte" name="cenaKarte" [disabled]="flag === 3" required>
+      </mat-form-field>
+
+      <div style="margin-bottom: 15px; padding-left: 5px;">
+        <mat-checkbox [(ngModel)]="data.placeno" name="placeno" [disabled]="flag === 3" color="primary">
+          Plaćeno
+        </mat-checkbox>
+      </div>
+
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <mat-label>Film</mat-label>
+        <mat-select [(ngModel)]="data.film" name="film" [compareWith]="compareFilmove" [disabled]="flag === 3" required>
+          <mat-option *ngFor="let f of filmovi" [value]="f">
+            {{f.naziv}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <mat-label>Sala ID</mat-label>
+        <mat-select [(ngModel)]="data.sala" name="sala" [compareWith]="compareSale" [disabled]="flag === 3" required>
+          <mat-option *ngFor="let s of sale" [value]="s">
+            {{s.id}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </form>
+  </div>
+
+  <div mat-dialog-actions style="display: flex; justify-content: flex-end; gap: 10px; padding: 15px 0;">
+    <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid" (click)="proveriLogiku()">Sačuvaj</button>
+    <button mat-raised-button *ngIf="flag === 3" color="warn" (click)="proveriLogiku()">Obriši</button>
+    <button mat-button (click)="ponisti()">Poništi</button>
+  </div>
+</div>

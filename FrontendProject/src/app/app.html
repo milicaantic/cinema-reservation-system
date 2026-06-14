@@ -1,52 +1,13 @@
-<main class="main" style="padding: 20px; font-family: sans-serif;">
+<mat-toolbar color="primary">  
+  <span style="flex: 1 1 auto;"></span>
+  
+  <button mat-button routerLink="/bioskop">Bioskop</button>
+  <button mat-button routerLink="/film">Film</button>
+  <button mat-button routerLink="/sala">Sala</button>
+  <button mat-button routerLink="/rezervacija">Rezervacija</button>
+</mat-toolbar>
 
-  <h1>Test Povezanosti sa Backendom</h1>
-  <hr>
-
-  <h2>1. Bioskopi</h2>
-  <ul *ngIf="bioskopi.length > 0; else noBioskop">
-    <li *ngFor="let b of bioskopi">
-      <strong>ID {{ b.id }}:</strong> {{ b.naziv }} - {{ b.adresa }}
-    </li>
-  </ul>
-  <ng-template #noBioskop><p style="color: gray;">Nema podataka ili tabela prazna.</p></ng-template>
-  <hr>
-
-
-  <h2>2. Filmovi</h2>
-  <ul *ngIf="filmovi.length > 0; else noFilm">
-    <li *ngFor="let f of filmovi">
-      <strong>{{ f.naziv }}</strong> (Žanr: {{ f.zanr }}, Trajanje: {{ f.trajanje }} min, Recenzija: {{ f.recenzija }}/10)
-    </li>
-  </ul>
-  <ng-template #noFilm><p style="color: gray;">Nema podataka ili tabela prazna.</p></ng-template>
-  <hr>
-
-
-  <h2>3. Sale</h2>
-  <ul *ngIf="sale.length > 0; else noSala">
-    <li *ngFor="let s of sale">
-      <strong>Sala ID {{ s.id }}:</strong> Kapacitet: {{ s.kapacitet }} mesta, Redova: {{ s.brojRedova }} 
-      <span style="color: blue;">(Nalazi se u bioskopu: {{ s.bioskop?.naziv }})</span>
-    </li>
-  </ul>
-  <ng-template #noSala><p style="color: gray;">Nema podataka ili tabela prazna.</p></ng-template>
-  <hr>
-
-
-  <h2>4. Rezervacije</h2>
-  <ul *ngIf="rezervacije.length > 0; else noRez">
-    <li *ngFor="let r of rezervacije">
-      <strong>Rezervacija ID {{ r.id }}:</strong> Broj osoba: {{ r.brojOsoba }}, Cena: {{ r.cenaKarte }} RSD, Datum: {{ r.datum | date:'dd.MM.yyyy.' }}
-      <br>
-      Placeno: <span [style.color]="r.placeno ? 'green' : 'red'">{{ r.placeno ? 'DA' : 'NE' }}</span> |
-      Film: <em>{{ r.film?.naziv }}</em> | 
-      Mesto: <em>Sala {{ r.sala?.id }} ({{ r.sala?.bioskop?.naziv }})</em>
-    </li>
-  </ul>
-  <ng-template #noRez><p style="color: gray;">Nema podataka ili tabela prazna.</p></ng-template>
-  <hr>
-
+<main class="main" style="padding: 20px;">
+  <router-outlet />
 </main>
 
-<router-outlet />

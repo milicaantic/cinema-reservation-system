@@ -1,0 +1,82 @@
+<div class="container mat-elevation-z8" style="padding: 15px; margin-bottom: 30px;">
+  <div style="margin-bottom: 15px;">
+    <button mat-raised-button color="primary" (click)="otvoriDialog(1)">
+      <mat-icon>add</mat-icon> Dodaj Bioskop
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" style="width: 100%;">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="naziv">
+      <th mat-header-cell *matHeaderCellDef> Naziv bioskopa </th>
+      <td mat-cell *matCellDef="let element"> {{element.naziv}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="adresa">
+      <th mat-header-cell *matHeaderCellDef> Adresa </th>
+      <td mat-cell *matCellDef="let element"> {{element.adresa}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mesto">
+      <th mat-header-cell *matHeaderCellDef> Mesto </th>
+      <td mat-cell *matCellDef="let element"> {{element.mesto}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Akcije </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent" (click)="$event.stopPropagation(); otvoriDialog(2, element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="$event.stopPropagation(); otvoriDialog(3, element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+        (click)="izaberiBioskop(row)"
+        [ngClass]="{'selektovan-red': selektovaniBioskop?.id === row.id}"
+        style="cursor: pointer;">
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="selektovaniBioskop" class="container mat-elevation-z8" style="padding: 15px; background-color: #fafafa;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h3>Sale za bioskop: <span style="color: #3f51b5;">{{selektovaniBioskop.naziv}}</span></h3>
+    <button mat-icon-button color="warn" (click)="selektovaniBioskop = null">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="saleZaBioskop.length === 0" style="padding: 20px; text-align: center; color: gray;">
+    Ovaj bioskop trenutno nema registrovanih sala.
+  </div>
+
+  <table mat-table [dataSource]="saleZaBioskop" *ngIf="saleZaBioskop.length > 0" style="width: 100%; margin-top: 10px;">
+    
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID / Broj Sale </th>
+      <td mat-cell *matCellDef="let sala"> {{sala.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="kapacitet">
+      <th mat-header-cell *matHeaderCellDef> Kapacitet </th>
+      <td mat-cell *matCellDef="let sala"> {{sala.kapacitet}} mesta </td>
+    </ng-container>
+
+    <ng-container matColumnDef="brojRedova">
+      <th mat-header-cell *matHeaderCellDef> Broj redova </th>
+      <td mat-cell *matCellDef="let sala"> {{sala.brojRedova}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="saleColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: saleColumns;"></tr>
+  </table>
+</div>

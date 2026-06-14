@@ -1,0 +1,51 @@
+<div class="container mat-elevation-z8" style="padding: 15px;">
+  
+  <div style="margin-bottom: 15px;">
+    <button mat-raised-button color="primary" (click)="otvoriDialog(1)">
+      <mat-icon>add</mat-icon> Dodaj Film
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" style="width: 100%;">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="naziv">
+      <th mat-header-cell *matHeaderCellDef> Naziv filma </th>
+      <td mat-cell *matCellDef="let element"> {{element.naziv}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="zanr">
+      <th mat-header-cell *matHeaderCellDef> Žanr </th>
+      <td mat-cell *matCellDef="let element"> {{element.zanr}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="trajanje">
+      <th mat-header-cell *matHeaderCellDef> Trajanje (min) </th>
+      <td mat-cell *matCellDef="let element"> {{element.trajanje}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="recenzija">
+      <th mat-header-cell *matHeaderCellDef> Recenzija </th>
+      <td mat-cell *matCellDef="let element"> {{element.recenzija}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Akcije </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent" (click)="$event.stopPropagation(); otvoriDialog(2, element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="$event.stopPropagation(); otvoriDialog(3, element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="tabela-red"></tr>
+  </table>
+</div>

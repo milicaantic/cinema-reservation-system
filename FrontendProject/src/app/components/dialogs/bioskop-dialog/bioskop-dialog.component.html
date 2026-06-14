@@ -1,0 +1,32 @@
+<div class="container">
+  <h3 mat-dialog-title *ngIf="flag === 1">Dodavanje bioskopa</h3>
+  <h3 mat-dialog-title *ngIf="flag === 2">Modifikacija bioskopa: {{data.id}}</h3>
+  <h3 mat-dialog-title *ngIf="flag === 3">Brisanje bioskopa: {{data.id}}</h3>
+
+  <div mat-dialog-content>
+    <form #forma="ngForm">
+      
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <mat-label>Naziv</mat-label>
+        <input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag === 3" required>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <mat-label>Adresa</mat-label>
+        <input matInput [(ngModel)]="data.adresa" name="adresa" [disabled]="flag === 3" required>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <mat-label>Mesto</mat-label>
+        <input matInput [(ngModel)]="data.mesto" name="mesto" [disabled]="flag === 3" required>
+      </mat-form-field>
+
+    </form>
+  </div>
+
+  <div mat-dialog-actions style="display: flex; justify-content: flex-end; gap: 10px; padding: 15px 0;">
+    <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid" (click)="proveriLogiku()">Sačuvaj</button>
+    <button mat-raised-button *ngIf="flag === 3" color="warn" (click)="proveriLogiku()">Obriši</button>
+    <button mat-button (click)="ponisti()">Poništi</button>
+  </div>
+</div>
