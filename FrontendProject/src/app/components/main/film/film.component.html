@@ -1,9 +1,10 @@
+    <h1>Film</h1>
+
 <div class="container mat-elevation-z8" style="padding: 15px;">
   
   <div style="margin-bottom: 15px;">
-    <button mat-raised-button color="primary" (click)="otvoriDialog(1)">
-      <mat-icon>add</mat-icon> Dodaj Film
-    </button>
+    <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
+      <mat-icon>add</mat-icon></button>
   </div>
 
   <table mat-table [dataSource]="dataSource" style="width: 100%;">
@@ -48,4 +49,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="tabela-red"></tr>
   </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

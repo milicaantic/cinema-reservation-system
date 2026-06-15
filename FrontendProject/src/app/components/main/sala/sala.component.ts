@@ -1,101 +1,84 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Sala } from '../../../models/sala'; 
-import { Rezervacija } from '../../../models/rezervacija'; 
+import { Sala } from '../../../models/sala';
+import { Rezervacija } from '../../../models/rezervacija';
 import { SalaService } from '../../../services/sala.service';
-import { RezervacijaService } from '../../../services/rezervacija.service'; 
+import { RezervacijaService } from '../../../services/rezervacija.service';
 import { SalaDialogComponent } from '../../dialogs/sala-dialog/sala-dialog.component';
+import { RezervacijaDialogComponent } from '../../dialogs/rezervacija-dialog/rezervacija-dialog.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-sala',
   standalone: true,
-  imports: [
-    CommonModule, 
-    MatTableModule, 
-    MatIconModule, 
-    MatButtonModule, 
-    MatDialogModule 
-  ],
+  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule, MatDialogModule, MatSortModule, MatPaginatorModule],
   templateUrl: './sala.component.html',
-  styleUrl: './sala.component.css'
+  styleUrls: ['./sala.component.css']
 })
 export class SalaComponent implements OnInit {
   displayedColumns: string[] = ['id', 'kapacitet', 'brojRedova', 'bioskop', 'actions'];
-  dataSource: Sala[] = [];
+  dataSource = new MatTableDataSource<Sala>([]);
+  @ViewChild('paginatorSale') paginatorSale!: MatPaginator;
 
-  rezervacijeColumns: string[] = ['id', 'datum', 'brojOsoba', 'cenaKarte', 'film', 'status'];
-  rezervacijeZaSalu: Rezervacija[] = [];
+  rezervacijeColumns: string[] = ['id', 'datum', 'brojOsoba', 'cenaKarte', 'film', 'status', 'actions'];
+  dataSourceRezervacije = new MatTableDataSource<Rezervacija>([]);
+  @ViewChild('paginatorRez') paginatorRez!: MatPaginator;
+
   selektovanaSala: Sala | null = null;
 
   constructor(
     private salaService: SalaService,
-    private rezervacijaService: RezervacijaService, 
+    private rezervacijaService: RezervacijaService,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
-    this.ucitajSale();
-  }
+  ngOnInit(): void { this.ucitajSale(); }
 
   ucitajSale(): void {
-    this.salaService.getAll().subscribe({
-      next: (data) => {
-        this.dataSource = data;
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error(err)
+    this.salaService.getAll().subscribe(data => {
+      this.dataSource.data = data;
+      this.dataSource.paginator = this.paginatorSale;
     });
+  }
+
+  formatirajDatum(datum: any): string {
+    if (!datum) return '';
+    return new Date(datum).toLocaleDateString('sr-RS');
   }
 
   izaberiSalu(sala: Sala): void {
     this.selektovanaSala = sala;
-    
-    this.rezervacijaService.getAll().subscribe({
-      next: (sveRezervacije) => {
-        this.rezervacijeZaSalu = sveRezervacije.filter(r => r.sala && r.sala.id === sala.id);
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error('Greška pri učitavanju rezervacija za salu:', err)
+    this.rezervacijaService.getAll().subscribe(sveRezervacije => {
+      this.dataSourceRezervacije.data = sveRezervacije.filter(r => r.sala?.id === sala.id);
+      this.dataSourceRezervacije.paginator = this.paginatorRez;
+      this.cdr.detectChanges();
     });
   }
 
-  formatirajDatum(lepiDatum: any): string {
-    if (!lepiDatum) return 'Nije postavljen';
-    const tekstDatuma = String(lepiDatum);
-    if (tekstDatuma.startsWith('+0000') || tekstDatuma.startsWith('0000')) return 'Nevažeći datum';
-
-    try {
-      const d = new Date(tekstDatuma);
-      if (isNaN(d.getTime())) return 'Nevažeći datum';
-      const dan = String(d.getDate()).padStart(2, '0');
-      const mesec = String(d.getMonth() + 1).padStart(2, '0');
-      const godina = d.getFullYear();
-      const sati = String(d.getHours()).padStart(2, '0');
-      const minuti = String(d.getMinutes()).padStart(2, '0');
-      return `${dan}.${mesec}.${godina}. u ${sati}:${minuti}h`;
-    } catch (e) {
-      return 'Nevažeći datum';
-    }
+  otvoriDialogSalu(flag: number, sala?: Sala): void {
+    const dialogRef = this.dialog.open(SalaDialogComponent, { 
+      data: flag === 1 ? {} : { ...sala }, 
+      width: '400px' 
+    });
+    dialogRef.componentInstance.flag = flag;
+    dialogRef.afterClosed().subscribe(result => { if (result === 1) this.ucitajSale(); });
   }
 
-  otvoriDialog(flag: number, sala?: Sala): void {
-    const dialogRef = this.dialog.open(SalaDialogComponent, {
-      data: flag === 1 ? {} as Sala : { ...sala },
+  otvoriDialogRezervaciju(flag: number, rez?: Rezervacija): void {
+    const dialogRef = this.dialog.open(RezervacijaDialogComponent, {
+      data: flag === 1 ? { sala: this.selektovanaSala } : { ...rez },
       width: '400px'
     });
-
     dialogRef.componentInstance.flag = flag;
-
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.ucitajSale();
-        this.selektovanaSala = null; 
-      }
+      if (result === 1 && this.selektovanaSala) this.izaberiSalu(this.selektovanaSala);
     });
   }
 }

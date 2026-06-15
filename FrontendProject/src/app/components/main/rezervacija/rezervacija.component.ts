@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,6 +7,10 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Rezervacija } from '../../../models/rezervacija'; 
 import { RezervacijaService } from '../../../services/rezervacija.service';
 import { RezervacijaDialogComponent } from '../../dialogs/rezervacija-dialog/rezervacija-dialog.component';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-app-rezervacija',
@@ -16,14 +20,16 @@ import { RezervacijaDialogComponent } from '../../dialogs/rezervacija-dialog/rez
     MatTableModule, 
     MatIconModule, 
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,MatSortModule,MatPaginatorModule
   ],
   templateUrl: './rezervacija.component.html',
   styleUrl: './rezervacija.component.css'
 })
 export class RezervacijaComponent implements OnInit {
   displayedColumns: string[] = ['id', 'datum', 'brojOsoba', 'cenaKarte', 'placeno', 'film', 'sala', 'actions'];
-  dataSource: Rezervacija[] = [];
+   dataSource = new MatTableDataSource<Rezervacija>([]);
+   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private rezervacijaService: RezervacijaService,
@@ -38,7 +44,9 @@ export class RezervacijaComponent implements OnInit {
   ucitajRezervacije(): void {
     this.rezervacijaService.getAll().subscribe({
       next: (data) => {
-        this.dataSource = data;
+         this.dataSource.data = data;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err)

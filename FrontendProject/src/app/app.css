@@ -1,7 +1,48 @@
+.main-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.spacer {
+    flex: 1 1 auto; 
+}
+
+.nav-group-left, 
+.nav-group-right {
+    display: flex;
+    gap: 10px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 20px;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
 
+.nav-group {
+  display: flex;
+  gap: 10px;
+  border-right: 1px solid rgba(255,255,255,0.3);
+  padding-right: 20px;
+  margin-right: 20px;
+}
+
+.utility-group {
+  display: flex;
+  gap: 5px;
+}
+
 .main-content {
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto; 
+}
+
+button[mat-button]:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

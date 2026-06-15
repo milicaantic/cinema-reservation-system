@@ -1,13 +1,22 @@
-<mat-toolbar color="primary">  
-  <span style="flex: 1 1 auto;"></span>
+<mat-toolbar color="primary" class="main-toolbar">
   
-  <button mat-button routerLink="/bioskop">Bioskop</button>
-  <button mat-button routerLink="/film">Film</button>
-  <button mat-button routerLink="/sala">Sala</button>
-  <button mat-button routerLink="/rezervacija">Rezervacija</button>
+  <div class="nav-group-left">
+    <button mat-button routerLink="/home">Početna</button>
+    <button mat-button routerLink="/about">O nama</button>
+    <button mat-button routerLink="/author">Autor</button>
+  </div>
+
+  <span class="spacer"></span>
+
+  <div class="nav-group-right">
+    <button mat-button routerLink="/bioskop">Bioskop</button>
+    <button mat-button routerLink="/film">Film</button>
+    <button mat-button routerLink="/sala">Sala</button>
+    <button mat-button routerLink="/rezervacija">Rezervacija</button>
+  </div>
+
 </mat-toolbar>
 
-<main class="main" style="padding: 20px;">
-  <router-outlet />
+<main class="main-content">
+  <router-outlet></router-outlet>
 </main>
-

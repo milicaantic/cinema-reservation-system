@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';       
@@ -7,18 +7,23 @@ import { Film } from '../../../models/film';
 import { FilmService } from '../../../services/film.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FilmDialogComponent } from '../../dialogs/film-dialog/film-dialog.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-film',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule,MatSortModule,MatPaginatorModule],
   templateUrl: './film.component.html',
   styleUrl: './film.component.css'
 })
 export class FilmComponent implements OnInit {
   displayedColumns: string[] = ['id', 'naziv', 'zanr', 'trajanje', 'recenzija', 'actions'];
-  dataSource: Film[] = [];
+ dataSource = new MatTableDataSource<Film>([]);
 
+ @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private filmService: FilmService,
     private cdr: ChangeDetectorRef,
@@ -32,7 +37,9 @@ export class FilmComponent implements OnInit {
   ucitajFilmove(): void {
     this.filmService.getAll().subscribe({
       next: (data) => {
-        this.dataSource = data;
+        this.dataSource.data = data;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
