@@ -55,10 +55,10 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.findByNazivContainingIgnoreCase(naziv);
     }
 
-    @Override
-    public List<Film> findByZanr(String zanr) {
-        return filmRepository.findByZanr(zanr);
-    }
+  @Override
+public List<Film> findByZanrContaining(String zanr) {
+    return filmRepository.findByZanrContainingIgnoreCase(zanr);
+}
 
     @Override
     public List<Film> findByRecenzijaGreaterThan(int recenzija) {

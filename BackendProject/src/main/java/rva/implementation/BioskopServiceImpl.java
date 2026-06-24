@@ -47,10 +47,10 @@ public class BioskopServiceImpl implements BioskopService {
         bioskopRepository.deleteById(id);
     }
 
-    @Override
-    public List<Bioskop> findByNaziv(String naziv) {
-        return bioskopRepository.findByNaziv(naziv);
-    }
+   @Override
+public List<Bioskop> findByNaziv(String naziv) {
+    return bioskopRepository.findByNazivContainingIgnoreCase(naziv);
+}
 
     @Override
     public List<Bioskop> findByAdresaContaining(String adresa) {

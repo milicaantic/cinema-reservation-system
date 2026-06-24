@@ -31,4 +31,13 @@ export class BioskopService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  findByNaziv(naziv: string) {
+  return this.http.get<Bioskop[]>(`${this.apiUrl}/naziv/${naziv}`);
+}
+
+
+findByAdresa(adresa: string) {
+  return this.http.get<Bioskop[]>(`${this.apiUrl}/adresa/${adresa}` );
+}
 }

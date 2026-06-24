@@ -31,4 +31,18 @@ export class FilmService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  findByNaziv(naziv:string){
+ return this.http.get<Film[]>(`${this.apiUrl}/naziv/${naziv}`);
+}
+
+
+findByZanr(zanr:string){
+ return this.http.get<Film[]>(`${this.apiUrl}/zanr/${zanr}`);
+}
+
+
+findByRecenzija(recenzija:number){
+ return this.http.get<Film[]>(`${this.apiUrl}/recenzija/${recenzija}`);
+}
 }

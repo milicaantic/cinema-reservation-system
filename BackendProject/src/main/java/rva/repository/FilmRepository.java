@@ -12,7 +12,7 @@ public interface FilmRepository extends JpaRepository<Film, Long> {
 
     List<Film> findByNazivContainingIgnoreCase(String naziv);
 
-    List<Film> findByZanr(String zanr);
+    List<Film> findByZanrContainingIgnoreCase(String zanr);
 
     List<Film> findByRecenzijaGreaterThan(int recenzija);
 

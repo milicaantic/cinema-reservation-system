@@ -10,6 +10,8 @@ import { RezervacijaDialogComponent } from '../../dialogs/rezervacija-dialog/rez
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @Component({
@@ -20,7 +22,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule, 
     MatIconModule, 
     MatButtonModule,
-    MatDialogModule,MatSortModule,MatPaginatorModule
+    MatDialogModule,MatSortModule,MatPaginatorModule,MatFormFieldModule, 
+    MatInputModule
   ],
   templateUrl: './rezervacija.component.html',
   styleUrl: './rezervacija.component.css'
@@ -40,6 +43,46 @@ export class RezervacijaComponent implements OnInit {
   ngOnInit(): void {
     this.ucitajRezervacije();
   }
+  pretraziPlaceno(vrednost:string){
+
+  if(vrednost === ''){
+    this.ucitajRezervacije();
+    return;
+  }
+
+  this.rezervacijaService
+      .findByPlaceno(vrednost === 'true')
+      .subscribe(data=>{
+        this.dataSource.data=data;
+      });
+}
+
+pretraziBrojOsoba(broj:string){
+
+  if(broj === ''){
+    this.ucitajRezervacije();
+    return;
+  }
+
+  this.rezervacijaService
+      .findByBrojOsoba(Number(broj))
+      .subscribe(data=>{
+        this.dataSource.data=data;
+      });
+}
+pretraziDatum(datum:string){
+
+  if(datum === ''){
+    this.ucitajRezervacije();
+    return;
+  }
+
+  this.rezervacijaService
+      .findByDatum(datum)
+      .subscribe(data=>{
+        this.dataSource.data=data;
+      });
+}
 
   ucitajRezervacije(): void {
     this.rezervacijaService.getAll().subscribe({
@@ -82,7 +125,7 @@ export class RezervacijaComponent implements OnInit {
 
   otvoriDialog(flag: number, rezervacija?: Rezervacija): void {
     const dialogRef = this.dialog.open(RezervacijaDialogComponent, {
-      data: flag === 1 ? {} as Rezervacija : { ...rezervacija },
+  data: flag === 1 ? { placeno: false } as Rezervacija : { ...rezervacija },
       width: '400px'
     });
 

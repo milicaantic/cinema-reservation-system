@@ -44,9 +44,9 @@ export class RezervacijaDialogComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (this.flag === 1) {
+   /* if (this.flag === 1) {
       this.data.placeno = false;
-    }
+    }*/
 
     if (this.data && this.data.datum) {
       const proveraDatuma = String(this.data.datum);

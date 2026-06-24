@@ -13,13 +13,16 @@ import { SalaDialogComponent } from '../../dialogs/sala-dialog/sala-dialog.compo
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-bioskop',
   standalone: true,
   imports: [
     CommonModule, MatTableModule, MatIconModule, MatButtonModule,
-    MatDialogModule, MatSortModule, MatPaginatorModule
+    MatDialogModule, MatSortModule, MatPaginatorModule ,MatFormFieldModule, 
+    MatInputModule 
   ],
   templateUrl: './bioskop.component.html',
   styleUrls: ['./bioskop.component.css']
@@ -48,6 +51,35 @@ export class BioskopComponent implements OnInit {
     this.ucitajBioskope();
   }
 
+pretraziNaziv(naziv: string) {
+
+  if (naziv.trim() === '') {
+    this.ucitajBioskope(); 
+    return;
+  }
+  
+
+  this.bioskopService.findByNaziv(naziv)
+    .subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+      },
+      error: (err) => console.error(err)
+    });
+}
+pretraziAdresu(adresa:string){
+
+ if(adresa.trim()===''){
+   this.ucitajBioskope();
+   return;
+ }
+
+ this.bioskopService.findByAdresa(adresa)
+ .subscribe(data=>{
+   this.dataSource.data=data;
+ });
+
+}
   ucitajBioskope(): void {
     this.bioskopService.getAll().subscribe({
       next: (data) => {

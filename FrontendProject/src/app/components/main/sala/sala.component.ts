@@ -13,11 +13,15 @@ import { RezervacijaDialogComponent } from '../../dialogs/rezervacija-dialog/rez
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 @Component({
   selector: 'app-sala',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule, MatDialogModule, MatSortModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule, MatDialogModule, MatSortModule, MatPaginatorModule,MatFormFieldModule, 
+    MatInputModule],
   templateUrl: './sala.component.html',
   styleUrls: ['./sala.component.css']
 })
@@ -55,6 +59,32 @@ export class SalaComponent implements OnInit {
     if (!datum) return '';
     return new Date(datum).toLocaleDateString('sr-RS');
   }
+  pretraziKapacitet(kapacitet:string){
+
+  if(!kapacitet){
+    this.ucitajSale();
+    return;
+  }
+
+  this.salaService
+      .findByKapacitet(Number(kapacitet))
+      .subscribe(data=>{
+        this.dataSource.data=data;
+      });
+}
+pretraziBrojRedova(brojRedova:string){
+
+  if(!brojRedova){
+    this.ucitajSale();
+    return;
+  }
+
+  this.salaService
+      .findByBrojRedova(Number(brojRedova))
+      .subscribe(data=>{
+        this.dataSource.data=data;
+      });
+}
 
   izaberiSalu(sala: Sala): void {
     this.selektovanaSala = sala;

@@ -23,11 +23,28 @@ export class RezervacijaService {
     return this.http.post<Rezervacija>(this.apiUrl, rezervacija);
   }
 
-  update(rezervacija: Rezervacija): Observable<Rezervacija> {
-    return this.http.put<Rezervacija>(`${this.apiUrl}/${rezervacija.id}`, rezervacija);
-  }
+ update(rezervacija: Rezervacija): Observable<Rezervacija> {
+    return this.http.put<Rezervacija>(this.apiUrl, rezervacija);
+}
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
+  findByPlaceno(placeno:boolean){
+  return this.http.get<Rezervacija[]>(
+    `${this.apiUrl}/placeno/${placeno}`
+  );
+}
+
+findByDatum(datum:string){
+  return this.http.get<Rezervacija[]>(
+    `${this.apiUrl}/datum/${datum}`
+  );
+}
+
+findByBrojOsoba(brojOsoba:number){
+  return this.http.get<Rezervacija[]>(
+    `${this.apiUrl}/brojosoba/${brojOsoba}`
+  );
+}
 }

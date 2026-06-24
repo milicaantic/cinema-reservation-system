@@ -5,7 +5,21 @@
     <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialogSalu(1)">
       <mat-icon>add</mat-icon></button>
   </div>
+<mat-form-field>
+  <input
+    matInput
+    #kapacitet
+    (keyup)="pretraziKapacitet(kapacitet.value)"
+    placeholder="Kapacitet veći od">
+</mat-form-field>
 
+<mat-form-field>
+  <input
+    matInput
+    #redovi
+    (keyup)="pretraziBrojRedova(redovi.value)"
+    placeholder="Broj redova">
+</mat-form-field>
   <table mat-table [dataSource]="dataSource" matSort  #sortSale="matSort"  style="width: 100%;">
     <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th><td mat-cell *matCellDef="let row"> {{row.id}} </td></ng-container>
     <ng-container matColumnDef="kapacitet"><th mat-header-cell *matHeaderCellDef mat-sort-header> Kapacitet </th><td mat-cell *matCellDef="let row"> {{row.kapacitet}} </td></ng-container>

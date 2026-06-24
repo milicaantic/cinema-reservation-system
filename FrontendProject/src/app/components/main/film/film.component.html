@@ -6,7 +6,28 @@
     <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
       <mat-icon>add</mat-icon></button>
   </div>
+<mat-form-field>
+<input matInput
+#naziv
+(keyup)="pretraziNaziv(naziv.value)"
+placeholder="Pretraži naziv">
+</mat-form-field>
 
+
+<mat-form-field>
+<input matInput
+#zanr
+(keyup)="pretraziZanr(zanr.value)"
+placeholder="Pretraži žanr">
+</mat-form-field>
+
+
+<mat-form-field>
+<input matInput
+#recenzija
+(keyup)="pretraziRecenziju(recenzija.value)"
+placeholder="Recenzija veća od">
+</mat-form-field>
   <table mat-table [dataSource]="dataSource" matSort #sortFilm="matSort" style="width: 100%;">
 
     <ng-container matColumnDef="id">

@@ -30,4 +30,15 @@ export class SalaService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  findByKapacitet(kapacitet:number){
+  return this.http.get<Sala[]>(
+    `${this.apiUrl}/kapacitet/${kapacitet}`
+  );
+}
+
+findByBrojRedova(brojRedova:number){
+  return this.http.get<Sala[]>(
+    `${this.apiUrl}/redovi/${brojRedova}`
+  );
+}
 }

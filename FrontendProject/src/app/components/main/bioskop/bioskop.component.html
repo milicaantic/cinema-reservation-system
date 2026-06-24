@@ -3,6 +3,19 @@
 <div class="container mat-elevation-z8" style="padding: 15px; margin-bottom: 30px;">
   <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
     <mat-icon>add</mat-icon></button>
+<mat-form-field>
+<input matInput 
+       #pretraga
+       (keyup)="pretraziNaziv(pretraga.value)"
+       placeholder="Pretraži naziv">
+     
+</mat-form-field>
+<mat-form-field>
+
+  <input matInput 
+       #adresa
+       (keyup)="pretraziAdresu(adresa.value)"  placeholder="Pretraži adresu">
+</mat-form-field>
 
   <table mat-table [dataSource]="dataSource" matSort #sortBioskop="matSort"  style="width: 100%;">
     <ng-container matColumnDef="id" ><th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th><td mat-cell *matCellDef="let r"> {{r.id}} </td></ng-container>

@@ -10,8 +10,10 @@ import jakarta.transaction.Transactional;
 import rva.model.Rezervacija;
 import rva.repository.RezervacijaRepository;
 import rva.service.RezervacijaService;
+import org.springframework.stereotype.Component;
 
-@Service
+
+@Component
 public class RezervacijaServiceImpl implements RezervacijaService {
 
     @Autowired

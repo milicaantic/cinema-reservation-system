@@ -23,6 +23,9 @@ public class RezervacijaController {
     public ResponseEntity<List<Rezervacija>> getAll() {
 
         List<Rezervacija> lista = rezervacijaService.findAll();
+        if (lista.isEmpty()) {
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+}
         
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
@@ -90,22 +93,17 @@ public class RezervacijaController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Rezervacija> update(@PathVariable Long id,
-                                              @RequestBody Rezervacija r) {
-
-        r.setId(id);
-
+   @PutMapping
+public ResponseEntity<Rezervacija> update(@RequestBody Rezervacija r) {
+    try {
         Rezervacija updated = rezervacijaService.update(r);
-
-        if (updated == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         return new ResponseEntity<>(updated, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+}
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {

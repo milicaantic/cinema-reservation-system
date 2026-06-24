@@ -10,11 +10,14 @@ import { FilmDialogComponent } from '../../dialogs/film-dialog/film-dialog.compo
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-film',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule,MatSortModule,MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule,MatSortModule,MatPaginatorModule,MatFormFieldModule, 
+    MatInputModule ],
   templateUrl: './film.component.html',
   styleUrl: './film.component.css'
 })
@@ -33,6 +36,46 @@ export class FilmComponent implements OnInit {
   ngOnInit(): void {
     this.ucitajFilmove();
   }
+  pretraziNaziv(naziv:string){
+
+ if(naziv.trim()===''){
+   this.ucitajFilmove();
+   return;
+ }
+
+ this.filmService.findByNaziv(naziv)
+ .subscribe(data=>{
+   this.dataSource.data=data;
+ });
+
+}pretraziZanr(zanr:string){
+
+ if(zanr.trim()===''){
+   this.ucitajFilmove();
+   return;
+ }
+
+ this.filmService.findByZanr(zanr)
+ .subscribe(data=>{
+   this.dataSource.data=data;
+ });
+
+}
+pretraziRecenziju(recenzija:string){
+
+ let broj = Number(recenzija);
+
+ if(!recenzija){
+   this.ucitajFilmove();
+   return;
+ }
+
+ this.filmService.findByRecenzija(broj)
+ .subscribe(data=>{
+   this.dataSource.data=data;
+ });
+
+}
 
   ucitajFilmove(): void {
     this.filmService.getAll().subscribe({

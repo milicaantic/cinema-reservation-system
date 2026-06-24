@@ -13,5 +13,7 @@ public interface BioskopRepository extends JpaRepository<Bioskop, Long>{
 	List<Bioskop> findByNaziv(String naziv);
 	
 	List<Bioskop> findByAdresaContainingIgnoreCase(String adresa);
+	List<Bioskop> findByNazivContainingIgnoreCase(String naziv);
+	
 
 }

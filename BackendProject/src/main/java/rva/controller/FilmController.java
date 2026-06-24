@@ -57,7 +57,7 @@ public class FilmController {
     @GetMapping("/zanr/{zanr}")
     public ResponseEntity<List<Film>> findByZanr(@PathVariable String zanr) {
 
-        List<Film> lista = filmService.findByZanr(zanr);
+        List<Film> lista = filmService.findByZanrContaining(zanr);
 
         if (lista.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

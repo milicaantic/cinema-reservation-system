@@ -6,7 +6,29 @@
     <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
       <mat-icon>add</mat-icon></button>
   </div>
+<mat-form-field>
+  <input
+    matInput
+    #broj
+    (keyup)="pretraziBrojOsoba(broj.value)"
+    placeholder="Broj osoba veći od">
+</mat-form-field>
 
+<mat-form-field>
+  <input
+    matInput
+    type="date"
+    #datum
+    (change)="pretraziDatum(datum.value)">
+</mat-form-field>
+
+<mat-form-field>
+  <input
+    matInput
+    #placeno
+    (keyup)="pretraziPlaceno(placeno.value)"
+    placeholder="true ili false">
+</mat-form-field>   
   <table mat-table [dataSource]="dataSource" style="width: 100%;">
 
     <ng-container matColumnDef="id">
