@@ -1,23 +1,34 @@
-    <h1>Bioskop</h1>
+<h1>Bioskop</h1>
 
 <div class="container mat-elevation-z8" style="padding: 15px; margin-bottom: 30px;">
-  <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
-    <mat-icon>add</mat-icon></button>
-<mat-form-field>
-<input matInput 
-       #pretraga
-       (keyup)="pretraziNaziv(pretraga.value)"
-       placeholder="Pretraži naziv">
-     
-</mat-form-field>
-<mat-form-field>
+  
+  <div style="margin-bottom: 15px;">
+    <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
 
-  <input matInput 
-       #adresa
-       (keyup)="pretraziAdresu(adresa.value)"  placeholder="Pretraži adresu">
-</mat-form-field>
+  <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+    
+    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
+      <mat-label>Pretraži naziv</mat-label>
+      <input matInput 
+             #pretraga
+             (keyup)="pretraziNaziv(pretraga.value)"
+             placeholder="Unesi naziv...">
+    </mat-form-field>
 
-  <table mat-table [dataSource]="dataSource" matSort #sortBioskop="matSort"  style="width: 100%;">
+    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
+      <mat-label>Pretraži adresu</mat-label>
+      <input matInput 
+             #adresa
+             (keyup)="pretraziAdresu(adresa.value)"  
+             placeholder="Unesi adresu...">
+    </mat-form-field>
+
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort #sortBioskop="matSort" style="width: 100%;">
     <ng-container matColumnDef="id" ><th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th><td mat-cell *matCellDef="let r"> {{r.id}} </td></ng-container>
     <ng-container matColumnDef="naziv"><th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv </th><td mat-cell *matCellDef="let r"> {{r.naziv}} </td></ng-container>
     <ng-container matColumnDef="adresa"><th mat-header-cell *matHeaderCellDef mat-sort-header> Adresa </th><td mat-cell *matCellDef="let r"> {{r.adresa}} </td></ng-container>
@@ -35,11 +46,18 @@
 </div>
 
 <div *ngIf="selektovaniBioskop" class="container mat-elevation-z8" style="padding: 15px; background-color: #fafafa;">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h1>Sale za: {{selektovaniBioskop.naziv}}</h1>
-    <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialogSalu(1)">
-      <mat-icon>add</mat-icon>
-    </button>
+    
+    <div style="display: flex; gap: 10px;">
+      <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialogSalu(1)">
+        <mat-icon>add</mat-icon>
+      </button>
+      
+      <button mat-icon-button color="warn" (click)="zatvoriSale()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
 
   <table mat-table [dataSource]="dataSourceSale"  matSort #sortSale="matSort" style="width: 100%;">

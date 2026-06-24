@@ -5,11 +5,25 @@
 
   <div mat-dialog-content>
     <form #forma="ngForm">
-      
-      <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Datum i vreme</mat-label>
-        <input matInput type="datetime-local" [(ngModel)]="data.datum" name="datum" [disabled]="flag === 3" required>
-      </mat-form-field>
+<mat-form-field style="width:100%; margin-bottom:10px;">
+  <mat-label>Datum</mat-label>
+
+<input
+  matInput
+  [matDatepicker]="picker"
+  [(ngModel)]="data.datum"
+  name="datum"
+  [disabled]="flag === 3" 
+  required>
+
+<mat-datepicker-toggle
+  matIconSuffix
+  [for]="picker">
+</mat-datepicker-toggle>
+
+<mat-datepicker #picker></mat-datepicker>
+
+</mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <input matInput type="number" placeholder="Broj osoba" [(ngModel)]="data.brojOsoba" name="brojOsoba" [disabled]="flag === 3" required>

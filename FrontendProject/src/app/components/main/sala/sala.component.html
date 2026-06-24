@@ -49,9 +49,9 @@
     <h1>Rezervacije za salu: {{selektovanaSala.id}}</h1>
     
     <div style="display: flex; gap: 10px;">
-      <button mat-raised-button color="primary" (click)="otvoriDialogRezervaciju(1)">
-        <mat-icon>add</mat-icon>
-      </button>
+      <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialogSalu(1)">
+      <mat-icon>add</mat-icon>
+    </button>
       <button mat-icon-button color="warn" (click)="selektovanaSala = null">
         <mat-icon>close</mat-icon>
       </button>

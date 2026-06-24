@@ -12,6 +12,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+
+
 
 
 @Component({
@@ -23,7 +28,10 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule, 
     MatButtonModule,
     MatDialogModule,MatSortModule,MatPaginatorModule,MatFormFieldModule, 
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
   ],
   templateUrl: './rezervacija.component.html',
   styleUrl: './rezervacija.component.css'
@@ -32,7 +40,7 @@ export class RezervacijaComponent implements OnInit {
   displayedColumns: string[] = ['id', 'datum', 'brojOsoba', 'cenaKarte', 'placeno', 'film', 'sala', 'actions'];
    dataSource = new MatTableDataSource<Rezervacija>([]);
    @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('sortRezervacije') sortRezervacije!: MatSort;
 
   constructor(
     private rezervacijaService: RezervacijaService,
@@ -43,18 +51,23 @@ export class RezervacijaComponent implements OnInit {
   ngOnInit(): void {
     this.ucitajRezervacije();
   }
-  pretraziPlaceno(vrednost:string){
-
-  if(vrednost === ''){
+  
+pretraziPlaceno(vrednost: string) {
+  if (vrednost === '') {
     this.ucitajRezervacije();
     return;
   }
 
+  const jePlaceno = vrednost === 'true';
+
   this.rezervacijaService
-      .findByPlaceno(vrednost === 'true')
-      .subscribe(data=>{
-        this.dataSource.data=data;
-      });
+    .findByPlaceno(jePlaceno)
+    .subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+      },
+      error: (err) => console.error('Greška pri pretrazi statusa plaćanja:', err)
+    });
 }
 
 pretraziBrojOsoba(broj:string){
@@ -70,18 +83,25 @@ pretraziBrojOsoba(broj:string){
         this.dataSource.data=data;
       });
 }
-pretraziDatum(datum:string){
-
-  if(datum === ''){
+pretraziDatumSaDatepickera(izabraniDatum: Date | null) {
+  if (!izabraniDatum) {
     this.ucitajRezervacije();
     return;
   }
 
+  const godina = izabraniDatum.getFullYear();
+  const mesec = String(izabraniDatum.getMonth() + 1).padStart(2, '0');
+  const dan = String(izabraniDatum.getDate()).padStart(2, '0');
+  const formatiranDatumString = `${godina}-${mesec}-${dan}`;
+
   this.rezervacijaService
-      .findByDatum(datum)
-      .subscribe(data=>{
-        this.dataSource.data=data;
-      });
+    .findByDatum(formatiranDatumString)
+    .subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+      },
+      error: (err) => console.error('Greška pri pretrazi datuma:', err)
+    });
 }
 
   ucitajRezervacije(): void {
@@ -89,7 +109,7 @@ pretraziDatum(datum:string){
       next: (data) => {
          this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      this.dataSource.sort = this.sortRezervacije; 
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
@@ -114,27 +134,47 @@ pretraziDatum(datum:string){
       const dan = String(d.getDate()).padStart(2, '0');
       const mesec = String(d.getMonth() + 1).padStart(2, '0');
       const godina = d.getFullYear();
-      const sati = String(d.getHours()).padStart(2, '0');
-      const minuti = String(d.getMinutes()).padStart(2, '0');
+
       
-      return `${dan}.${mesec}.${godina}. u ${sati}:${minuti}h`;
+      return `${dan}.${mesec}.${godina}.`;
     } catch (e) {
       return 'Nevažeći datum';
     }
   }
 
-  otvoriDialog(flag: number, rezervacija?: Rezervacija): void {
-    const dialogRef = this.dialog.open(RezervacijaDialogComponent, {
-  data: flag === 1 ? { placeno: false } as Rezervacija : { ...rezervacija },
-      width: '400px'
-    });
+ otvoriDialog(flag: number, rezervacija?: Rezervacija): void {
 
-    dialogRef.componentInstance.flag = flag;
+  let data: Rezervacija;
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        this.ucitajRezervacije();
-      }
-    }); 
+  if (flag === 1) {
+    data = {
+      id: 0,
+      datum: new Date(),
+      brojOsoba: 0,
+      cenaKarte: 0,
+      placeno: false,
+      film: null as any,
+      sala: null as any
+    };
+  } else {
+    data = {
+      ...rezervacija!,
+      datum: new Date(rezervacija!.datum as any)
+    };
   }
+
+  const dialogRef = this.dialog.open(RezervacijaDialogComponent, {
+    data: data,
+    width: '400px',
+     panelClass: 'custom-dialog'
+  });
+
+  dialogRef.componentInstance.flag = flag;
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === 1) {
+      this.ucitajRezervacije();
+    }
+  });
+}
 }

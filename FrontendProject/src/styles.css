@@ -7,3 +7,11 @@ mat-row:hover {
   background-color: #e8eaf6 !important;
   font-weight: bold;
 }
+.custom-dialog {
+  overflow: visible !important;
+}
+
+.cdk-overlay-container {
+  z-index: 9999 !important;
+}
+

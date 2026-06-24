@@ -13,19 +13,28 @@ import { Sala } from '../../../models/sala';
 import { RezervacijaService } from '../../../services/rezervacija.service';
 import { FilmService } from '../../../services/film.service';
 import { SalaService } from '../../../services/sala.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+
+
 
 @Component({
   selector: 'app-rezervacija-dialog',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatDialogModule, 
-    MatButtonModule, 
-    MatInputModule, 
-    MatFormFieldModule, 
-    MatSelectModule, 
-    MatCheckboxModule, 
-    FormsModule
+     CommonModule,
+  MatDialogModule,
+  MatButtonModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatCheckboxModule,
+  FormsModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatIconModule
+
   ],
   templateUrl: './rezervacija-dialog.component.html'
 })
@@ -48,12 +57,9 @@ export class RezervacijaDialogComponent implements OnInit {
       this.data.placeno = false;
     }*/
 
-    if (this.data && this.data.datum) {
-      const proveraDatuma = String(this.data.datum);
-      if (proveraDatuma.includes('T') && proveraDatuma.length > 16) {
-        this.data.datum = proveraDatuma.substring(0, 16) as any;
-      }
-    }
+    if (this.data?.datum) {
+  this.data.datum = new Date(this.data.datum as any);
+}
 
     this.filmService.getAll().subscribe({
       next: (res) => this.filmovi = res,

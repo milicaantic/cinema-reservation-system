@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { Film } from '../../../models/film';
 import { FilmService } from '../../../services/film.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-film-dialog',
@@ -17,7 +18,8 @@ import { FilmService } from '../../../services/film.service';
     MatButtonModule, 
     MatInputModule, 
     MatFormFieldModule, 
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   templateUrl: './film-dialog.component.html'
 })
@@ -27,7 +29,8 @@ export class FilmDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<FilmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Film,
-    private filmService: FilmService
+    private filmService: FilmService,
+    private snackBar: MatSnackBar
   ) { }
 
   public proveriLogiku(): void {
@@ -60,7 +63,19 @@ export class FilmDialogComponent {
     } else if (this.flag === 3) {
       this.filmService.delete(Number(this.data.id)).subscribe({
         next: () => this.dialogRef.close(1),
-        error: (err: any) => console.error('Greška pri brisanju filma:', err)
+        error: (err: any) => {
+          console.error('Greška pri brisanju filma:', err);
+          
+          this.snackBar.open(
+            'Nije moguće obrisati film jer postoje aktivne rezervacije za njega!', 
+            'Zatvori', 
+            {
+              duration: 5000, 
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom'
+            }
+          );
+        }
       });
     }
   }

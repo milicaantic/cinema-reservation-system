@@ -5,7 +5,7 @@ export interface Rezervacija {
   id: number;
   brojOsoba: number;
   cenaKarte: number;
-  datum: string;
+  datum: Date;
   placeno: boolean;
   film: Film;
   sala: Sala;

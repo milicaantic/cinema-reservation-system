@@ -132,4 +132,9 @@ pretraziAdresu(adresa:string){
       }
     });
   }
+  zatvoriSale(): void {
+    this.selektovaniBioskop = null;
+    this.dataSourceSale.data = [];
+    this.cdr.detectChanges();
+  }
 }

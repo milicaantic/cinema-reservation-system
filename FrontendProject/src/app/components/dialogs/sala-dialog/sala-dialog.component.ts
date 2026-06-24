@@ -10,6 +10,7 @@ import { Sala } from '../../../models/sala';
 import { Bioskop } from '../../../models/bioskop';
 import { SalaService } from '../../../services/sala.service';
 import { BioskopService } from '../../../services/bioskop.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sala-dialog',
@@ -21,7 +22,8 @@ import { BioskopService } from '../../../services/bioskop.service';
     MatInputModule, 
     MatFormFieldModule, 
     MatSelectModule, 
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   templateUrl: './sala-dialog.component.html'
 })
@@ -33,7 +35,8 @@ export class SalaDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<SalaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Sala,
     private salaService: SalaService,
-    private bioskopService: BioskopService
+    private bioskopService: BioskopService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -75,10 +78,18 @@ export class SalaDialogComponent implements OnInit {
     } else if (this.flag === 3) {
       this.salaService.delete(Number(this.data.id)).subscribe({
         next: () => this.dialogRef.close(1),
-        error: (err: any) => console.error('Greška pri brisanju sale:', err)
+        error: (err: any) => {
+          console.error('Greška pri brisanju sale:', err);
+          
+          this.snackBar.open(
+            'Nije moguće obrisati salu jer za nju postoje aktivne rezervacije!', 
+            'Zatvori', 
+            { duration: 5000 }
+          );
+        }
       });
     }
-  }
+  } 
 
   public ponisti(): void {
     this.dialogRef.close();
