@@ -7,16 +7,20 @@
     <form #forma="ngForm">
       
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <input matInput type="number" placeholder="Kapacitet" [(ngModel)]="data.kapacitet" name="kapacitet" [disabled]="flag === 3" required>
-      </mat-form-field>
+<mat-label>Kapacitet</mat-label>
+<input matInput type="number" [(ngModel)]="data.kapacitet" name="kapacitet" [disabled]="flag === 3"
+       required min="1" max="1000">
+            </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <input matInput type="number" placeholder="Broj redova" [(ngModel)]="data.brojRedova" name="brojRedova" [disabled]="flag === 3" required>
-      </mat-form-field>
+<mat-label>Broj redova</mat-label>
+<input matInput type="number" [(ngModel)]="data.brojRedova" name="brojRedova" [disabled]="flag === 3"
+       required min="1" max="100">
+            </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <mat-label>Bioskop</mat-label>
-        <mat-select [(ngModel)]="data.bioskop" name="bioskop" [compareWith]="compareObjects" [disabled]="flag === 3" required>
+        <mat-select [(ngModel)]="data.bioskop" name="bioskop" [compareWith]="compareObjects" [disabled]="flag === 3 || !!data.bioskop && flag === 1" required>
           <mat-option *ngFor="let b of bioskopi" [value]="b">
             {{b.naziv}}
           </mat-option>

@@ -6,12 +6,12 @@
     <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
       <mat-icon>add</mat-icon></button>
   </div>
-<mat-form-field>
-  <input
-    matInput
-    #broj
-    (keyup)="pretraziBrojOsoba(broj.value)"
-    placeholder="Broj osoba veći od">
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+
+<mat-form-field  appearance="outline" style="flex: 1; min-width: 200px;">
+ <input matInput #broj type="number" min="1" max="100"
+(keyup)="pretraziBrojOsoba(broj.value)"
+placeholder="Broj osoba veći od">
 </mat-form-field>
 
 <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
@@ -39,7 +39,7 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
-
+    </div>
   <table mat-table [dataSource]="dataSource" matSort  #sortRezervacije="matSort"  style="width: 100%;">
 
     <ng-container matColumnDef="id">

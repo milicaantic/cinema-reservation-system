@@ -42,6 +42,7 @@ export class RezervacijaDialogComponent implements OnInit {
   public flag!: number;
   public filmovi: Film[] = [];
   public sale: Sala[] = [];
+  danas = new Date();
 
   constructor(
     public dialogRef: MatDialogRef<RezervacijaDialogComponent>,

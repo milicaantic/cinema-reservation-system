@@ -8,13 +8,15 @@
       
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <mat-label>Naziv</mat-label>
-        <input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag === 3" required>
-      </mat-form-field>
+<input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag === 3"
+       required minlength="2" maxlength="100">
+            </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <mat-label>Adresa</mat-label>
-        <input matInput [(ngModel)]="data.adresa" name="adresa" [disabled]="flag === 3" required>
-      </mat-form-field>
+<input matInput [(ngModel)]="data.adresa" name="adresa" [disabled]="flag === 3"
+       required minlength="2" maxlength="200">
+            </mat-form-field>
 
 
     </form>

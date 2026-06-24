@@ -14,6 +14,7 @@
   [(ngModel)]="data.datum"
   name="datum"
   [disabled]="flag === 3" 
+  [min]="flag === 1 ? danas : null"
   required>
 
 <mat-datepicker-toggle
@@ -26,12 +27,13 @@
 </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <input matInput type="number" placeholder="Broj osoba" [(ngModel)]="data.brojOsoba" name="brojOsoba" [disabled]="flag === 3" required>
+<input matInput type="number" [(ngModel)]="data.brojOsoba" name="brojOsoba" [disabled]="flag === 3"
+       required min="1" max="100">
       </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <input matInput type="number" placeholder="Cena karte" [(ngModel)]="data.cenaKarte" name="cenaKarte" [disabled]="flag === 3" required>
-      </mat-form-field>
+<input matInput type="number" [(ngModel)]="data.cenaKarte" name="cenaKarte" [disabled]="flag === 3"
+       required min="0.01">      </mat-form-field>
 
       <div style="margin-bottom: 15px; padding-left: 5px;">
         <mat-checkbox [(ngModel)]="data.placeno" name="placeno" [disabled]="flag === 3" color="primary">
@@ -50,7 +52,7 @@
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <mat-label>Sala ID</mat-label>
-        <mat-select [(ngModel)]="data.sala" name="sala" [compareWith]="compareSale" [disabled]="flag === 3" required>
+        <mat-select [(ngModel)]="data.sala" name="sala" [compareWith]="compareSale" [disabled]="flag === 3 || !!data.sala && flag === 1" required>
           <mat-option *ngFor="let s of sale" [value]="s">
             {{s.id}}
           </mat-option>

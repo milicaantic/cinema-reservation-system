@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -31,7 +32,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   templateUrl: './rezervacija.component.html',
   styleUrl: './rezervacija.component.css'
@@ -45,7 +47,8 @@ export class RezervacijaComponent implements OnInit {
   constructor(
     private rezervacijaService: RezervacijaService,
     private cdr: ChangeDetectorRef,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -141,40 +144,26 @@ pretraziDatumSaDatepickera(izabraniDatum: Date | null) {
       return 'Nevažeći datum';
     }
   }
-
- otvoriDialog(flag: number, rezervacija?: Rezervacija): void {
+otvoriDialog(flag: number, rezervacija?: Rezervacija): void {
+  if (flag === 2 && rezervacija) {
+    const datum = new Date(rezervacija.datum as any);
+    if (datum < new Date()) {
+      this.snackBar.open('Nije moguće izmeniti rezervaciju iz prošlosti!', 'Zatvori', { duration: 3000 });
+      return;
+    }
+  }
 
   let data: Rezervacija;
-
   if (flag === 1) {
-    data = {
-      id: 0,
-      datum: new Date(),
-      brojOsoba: 0,
-      cenaKarte: 0,
-      placeno: false,
-      film: null as any,
-      sala: null as any
-    };
+    data = { id: 0, datum: new Date(), brojOsoba: 0, cenaKarte: 0, placeno: false, film: null as any, sala: null as any };
   } else {
-    data = {
-      ...rezervacija!,
-      datum: new Date(rezervacija!.datum as any)
-    };
+    data = { ...rezervacija!, datum: new Date(rezervacija!.datum as any) };
   }
 
   const dialogRef = this.dialog.open(RezervacijaDialogComponent, {
-    data: data,
-    width: '400px',
-     panelClass: 'custom-dialog'
+    data: data, width: '400px', panelClass: 'custom-dialog'
   });
-
   dialogRef.componentInstance.flag = flag;
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === 1) {
-      this.ucitajRezervacije();
-    }
-  });
+  dialogRef.afterClosed().subscribe(result => { if (result === 1) this.ucitajRezervacije(); });
 }
 }
