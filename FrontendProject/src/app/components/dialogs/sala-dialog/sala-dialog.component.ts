@@ -61,7 +61,6 @@ export class SalaDialogComponent implements OnInit {
         error: (err: any) => console.error('Greška pri dodavanju sale:', err)
       });
     } else if (this.flag === 2) {
-      // Izmena postojeće sale
       const izmenjenaSala: Sala = {
         id: this.data.id,
         kapacitet: this.data.kapacitet,

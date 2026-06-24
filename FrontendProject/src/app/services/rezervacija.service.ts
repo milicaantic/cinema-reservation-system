@@ -23,7 +23,6 @@ export class RezervacijaService {
     return this.http.post<Rezervacija>(this.apiUrl, rezervacija);
   }
 
-  // Ovde saljemo i ID u URL-u jer tako zahteva tvoj RezervacijaController
   update(rezervacija: Rezervacija): Observable<Rezervacija> {
     return this.http.put<Rezervacija>(`${this.apiUrl}/${rezervacija.id}`, rezervacija);
   }

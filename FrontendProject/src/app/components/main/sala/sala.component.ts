@@ -30,6 +30,8 @@ export class SalaComponent implements OnInit {
   dataSourceRezervacije = new MatTableDataSource<Rezervacija>([]);
   @ViewChild('paginatorRez') paginatorRez!: MatPaginator;
 
+  @ViewChild('sortSale') sortSale!: MatSort;
+  @ViewChild('sortRezervacije') sortRezervacije!: MatSort;
   selektovanaSala: Sala | null = null;
 
   constructor(
@@ -45,6 +47,7 @@ export class SalaComponent implements OnInit {
     this.salaService.getAll().subscribe(data => {
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginatorSale;
+      this.dataSource.sort = this.sortSale;
     });
   }
 
@@ -58,6 +61,7 @@ export class SalaComponent implements OnInit {
     this.rezervacijaService.getAll().subscribe(sveRezervacije => {
       this.dataSourceRezervacije.data = sveRezervacije.filter(r => r.sala?.id === sala.id);
       this.dataSourceRezervacije.paginator = this.paginatorRez;
+      this.dataSourceRezervacije.sort = this.sortRezervacije; 
       this.cdr.detectChanges();
     });
   }
@@ -73,7 +77,7 @@ export class SalaComponent implements OnInit {
 
   otvoriDialogRezervaciju(flag: number, rez?: Rezervacija): void {
     const dialogRef = this.dialog.open(RezervacijaDialogComponent, {
-      data: flag === 1 ? { sala: this.selektovanaSala } : { ...rez },
+      data: flag === 1 ? { sala: this.selektovanaSala,   placeno: false } : { ...rez },
       width: '400px'
     });
     dialogRef.componentInstance.flag = flag;

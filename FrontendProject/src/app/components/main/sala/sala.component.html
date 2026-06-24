@@ -6,14 +6,14 @@
       <mat-icon>add</mat-icon></button>
   </div>
 
-  <table mat-table [dataSource]="dataSource" matSort style="width: 100%;">
-    <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef> ID </th><td mat-cell *matCellDef="let row"> {{row.id}} </td></ng-container>
-    <ng-container matColumnDef="kapacitet"><th mat-header-cell *matHeaderCellDef> Kapacitet </th><td mat-cell *matCellDef="let row"> {{row.kapacitet}} </td></ng-container>
-    <ng-container matColumnDef="brojRedova"><th mat-header-cell *matHeaderCellDef> Broj redova </th><td mat-cell *matCellDef="let row"> {{row.brojRedova}} </td></ng-container>
+  <table mat-table [dataSource]="dataSource" matSort  #sortSale="matSort"  style="width: 100%;">
+    <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th><td mat-cell *matCellDef="let row"> {{row.id}} </td></ng-container>
+    <ng-container matColumnDef="kapacitet"><th mat-header-cell *matHeaderCellDef mat-sort-header> Kapacitet </th><td mat-cell *matCellDef="let row"> {{row.kapacitet}} </td></ng-container>
+    <ng-container matColumnDef="brojRedova"><th mat-header-cell *matHeaderCellDef mat-sort-header> Broj redova </th><td mat-cell *matCellDef="let row"> {{row.brojRedova}} </td></ng-container>
     <ng-container matColumnDef="bioskop"><th mat-header-cell *matHeaderCellDef> Bioskop </th><td mat-cell *matCellDef="let row"> {{row.bioskop?.naziv}} </td></ng-container>
     
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Akcije </th>
+      <th mat-header-cell *matHeaderCellDef > Akcije </th>
       <td mat-cell *matCellDef="let row">
         <button mat-icon-button color="accent" (click)="$event.stopPropagation(); otvoriDialogSalu(2, row)"><mat-icon>edit</mat-icon></button>
         <button mat-icon-button color="warn" (click)="$event.stopPropagation(); otvoriDialogSalu(3, row)"><mat-icon>delete</mat-icon></button>
@@ -32,11 +32,11 @@
 
 <div *ngIf="selektovanaSala" class="container mat-elevation-z8" style="padding: 15px; background-color: #fafafa;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-    <h3>Rezervacije za salu: {{selektovanaSala.id}}</h3>
+    <h1>Rezervacije za salu: {{selektovanaSala.id}}</h1>
     
     <div style="display: flex; gap: 10px;">
       <button mat-raised-button color="primary" (click)="otvoriDialogRezervaciju(1)">
-        <mat-icon>add</mat-icon> Nova Rezervacija
+        <mat-icon>add</mat-icon>
       </button>
       <button mat-icon-button color="warn" (click)="selektovanaSala = null">
         <mat-icon>close</mat-icon>
@@ -47,13 +47,14 @@
   <div *ngIf="dataSourceRezervacije.data.length === 0" style="padding: 20px; text-align: center; color: gray;">
     Nema registrovanih rezervacija za ovu salu.
   </div>
+<ng-container *ngIf="dataSourceRezervacije.data.length > 0">
 
-  <table mat-table [dataSource]="dataSourceRezervacije" *ngIf="dataSourceRezervacije.data.length > 0" style="width: 100%;">
-    <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef> ID </th><td mat-cell *matCellDef="let rez"> {{rez.id}} </td></ng-container>
-    <ng-container matColumnDef="datum"><th mat-header-cell *matHeaderCellDef> Datum </th><td mat-cell *matCellDef="let rez"> {{formatirajDatum(rez.datum)}} </td></ng-container>
-    <ng-container matColumnDef="brojOsoba"><th mat-header-cell *matHeaderCellDef> Osoba </th><td mat-cell *matCellDef="let rez"> {{rez.brojOsoba}} </td></ng-container>
-    <ng-container matColumnDef="cenaKarte"><th mat-header-cell *matHeaderCellDef> Cena </th><td mat-cell *matCellDef="let rez"> {{rez.cenaKarte}} RSD </td></ng-container>
-    <ng-container matColumnDef="film"><th mat-header-cell *matHeaderCellDef> Film </th><td mat-cell *matCellDef="let rez"> {{rez.film?.naziv}} </td></ng-container>
+  <table mat-table [dataSource]="dataSourceRezervacije" matSort #sortRezervacije="matSort" style="width: 100%;">
+    <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th><td mat-cell *matCellDef="let rez"> {{rez.id}} </td></ng-container>
+    <ng-container matColumnDef="datum"><th mat-header-cell *matHeaderCellDef mat-sort-header> Datum </th><td mat-cell *matCellDef="let rez"> {{formatirajDatum(rez.datum)}} </td></ng-container>
+    <ng-container matColumnDef="brojOsoba"><th mat-header-cell *matHeaderCellDef mat-sort-header> Osoba </th><td mat-cell *matCellDef="let rez"> {{rez.brojOsoba}} </td></ng-container>
+    <ng-container matColumnDef="cenaKarte"><th mat-header-cell *matHeaderCellDef mat-sort-header> Cena </th><td mat-cell *matCellDef="let rez"> {{rez.cenaKarte}} RSD </td></ng-container>
+    <ng-container matColumnDef="film"><th mat-header-cell *matHeaderCellDef mat-sort-header> Film </th><td mat-cell *matCellDef="let rez"> {{rez.film?.naziv}} </td></ng-container>
     <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef> Plaćeno </th>
       <td mat-cell *matCellDef="let rez"> 
         <mat-icon [style.color]="rez.placeno ? 'green' : 'red'">{{rez.placeno ? 'check_circle' : 'cancel'}}</mat-icon> 
@@ -71,5 +72,6 @@
     <tr mat-header-row *matHeaderRowDef="rezervacijeColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: rezervacijeColumns;"></tr>
   </table>
+  </ng-container>
   <mat-paginator #paginatorRez [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

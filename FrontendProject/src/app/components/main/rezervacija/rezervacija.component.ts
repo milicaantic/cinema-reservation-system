@@ -92,6 +92,6 @@ export class RezervacijaComponent implements OnInit {
       if (result === 1) {
         this.ucitajRezervacije();
       }
-    });
+    }); 
   }
 }

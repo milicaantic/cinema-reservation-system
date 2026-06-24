@@ -7,30 +7,30 @@
       <mat-icon>add</mat-icon></button>
   </div>
 
-  <table mat-table [dataSource]="dataSource" style="width: 100%;">
+  <table mat-table [dataSource]="dataSource" matSort #sortFilm="matSort" style="width: 100%;">
 
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
 
     <ng-container matColumnDef="naziv">
-      <th mat-header-cell *matHeaderCellDef> Naziv filma </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv filma </th>
       <td mat-cell *matCellDef="let element"> {{element.naziv}} </td>
     </ng-container>
 
     <ng-container matColumnDef="zanr">
-      <th mat-header-cell *matHeaderCellDef> Žanr </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Žanr </th>
       <td mat-cell *matCellDef="let element"> {{element.zanr}} </td>
     </ng-container>
 
     <ng-container matColumnDef="trajanje">
-      <th mat-header-cell *matHeaderCellDef> Trajanje (min) </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Trajanje (min) </th>
       <td mat-cell *matCellDef="let element"> {{element.trajanje}} </td>
     </ng-container>
 
     <ng-container matColumnDef="recenzija">
-      <th mat-header-cell *matHeaderCellDef> Recenzija </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Recenzija </th>
       <td mat-cell *matCellDef="let element"> {{element.recenzija}} </td>
     </ng-container>
 

@@ -23,7 +23,7 @@ export class FilmComponent implements OnInit {
  dataSource = new MatTableDataSource<Film>([]);
 
  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('sortFilm') sortFilm!: MatSort;
   constructor(
     private filmService: FilmService,
     private cdr: ChangeDetectorRef,
@@ -39,7 +39,7 @@ export class FilmComponent implements OnInit {
       next: (data) => {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sortFilm;
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err)

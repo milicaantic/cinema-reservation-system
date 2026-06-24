@@ -90,11 +90,15 @@ export class RezervacijaDialogComponent implements OnInit {
         error: (err: any) => console.error('Greška pri dodavanju rezervacije:', err)
       });
     } else if (this.flag === 2) {
-      const izmenjenaRezervacija = {
-        ...this.data,
-        placeno: statusPlacanja,
-        Placeno: statusPlacanja
-      };
+     const izmenjenaRezervacija = {
+  id: this.data.id,
+  brojOsoba: this.data.brojOsoba,
+  cenaKarte: this.data.cenaKarte,
+  datum: this.data.datum,
+  placeno: statusPlacanja,
+  film: this.data.film,
+  sala: this.data.sala
+};
 
       this.rezervacijaService.update(izmenjenaRezervacija as any).subscribe({
         next: () => this.dialogRef.close(1),
