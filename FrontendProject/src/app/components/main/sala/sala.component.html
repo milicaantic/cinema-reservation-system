@@ -22,6 +22,7 @@
         placeholder="Unesi broj redova...">
     </mat-form-field>
   </div>
+  <div class="table-wrapper">
   <table mat-table [dataSource]="dataSource" matSort #sortSale="matSort" style="width: 100%;">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
@@ -53,8 +54,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="izaberiSalu(row)"
       [ngClass]="{'selektovan-red': selektovanaSala?.id === row.id}" style="cursor: pointer;">
+      
     </tr>
   </table>
+  </div>
   <mat-paginator #paginatorSale [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 

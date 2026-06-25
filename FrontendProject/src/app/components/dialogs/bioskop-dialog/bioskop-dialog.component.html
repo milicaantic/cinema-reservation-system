@@ -7,13 +7,13 @@
     <form #forma="ngForm">
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Naziv (1-100 karaktera)</mat-label>
+        <mat-label>Naziv (2-100 karaktera)</mat-label>
         <input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag === 3" required minlength="2"
           maxlength="100">
       </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Adresa (1-200 karaktera)</mat-label>
+        <mat-label>Adresa (2-200 karaktera)</mat-label>
         <input matInput [(ngModel)]="data.adresa" name="adresa" [disabled]="flag === 3" required minlength="2"
           maxlength="200">
       </mat-form-field>
@@ -21,7 +21,7 @@
 
     </form>
   </div>
-  
+
   <div class="dialog-info">
   <mat-icon>info</mat-icon>
   <span> Obavezna polja (*) i validacioni uslovi moraju biti ispunjeni.</span>

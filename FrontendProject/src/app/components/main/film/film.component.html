@@ -29,6 +29,7 @@
         placeholder="Unesi recenziju...">
     </mat-form-field>
   </div>
+  <div class="table-wrapper">
   <table mat-table [dataSource]="dataSource" matSort #sortFilm="matSort" style="width: 100%;">
 
     <ng-container matColumnDef="id">
@@ -71,5 +72,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="tabela-red"></tr>
   </table>
+  </div>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

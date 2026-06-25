@@ -27,7 +27,7 @@
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
                         <mat-label>Cena karte (1-100000)</mat-label>
         <input matInput type="number" [(ngModel)]="data.cenaKarte" name="cenaKarte" [disabled]="flag === 3" required
-          min="1.00"> </mat-form-field>
+          min="1.00" max="100000"> </mat-form-field>
 
       <div style="margin-bottom: 15px; padding-left: 5px;">
         <mat-checkbox [(ngModel)]="data.placeno" name="placeno" [disabled]="flag === 3" color="primary">

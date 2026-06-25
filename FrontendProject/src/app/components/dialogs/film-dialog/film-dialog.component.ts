@@ -49,7 +49,16 @@ export class FilmDialogComponent {
       };
 
       this.filmService.create(noviFilm).subscribe({
-        next: () => this.dialogRef.close(1),
+      next: () => {
+
+          this.snackBar.open(
+            'Film je uspešno dodat.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri dodavanju filma:', err)
       });
     } else if (this.flag === 2) {
@@ -62,12 +71,29 @@ export class FilmDialogComponent {
       };
 
       this.filmService.update(izmenjeniFilm).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+
+          this.snackBar.open(
+            'Film je uspešno izmenjen.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri izmeni filma:', err)
       });
     } else if (this.flag === 3) {
       this.filmService.delete(Number(this.data.id)).subscribe({
-        next: () => this.dialogRef.close(1),
+           next: () => {
+          this.snackBar.open(
+            'Film je uspešno obrisan.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => {
           console.error('Greška pri brisanju filma:', err);
 

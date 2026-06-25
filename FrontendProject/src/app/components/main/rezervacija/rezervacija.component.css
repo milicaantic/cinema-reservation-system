@@ -15,3 +15,12 @@ table {
 .mat-mdc-header-cell {
   font-weight: bold;
 }
+tr.mat-mdc-row:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.2s ease;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}

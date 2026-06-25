@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
   ],
   templateUrl: './bioskop-dialog.component.html',
-      styleUrl: './bioskop-dialog.component.css'
+  styleUrl: './bioskop-dialog.component.css'
 
 })
 export class BioskopDialogComponent {
@@ -47,7 +47,16 @@ export class BioskopDialogComponent {
       };
 
       this.bioskopService.create(noviBioskop).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+
+          this.snackBar.open(
+            'Bioskop je uspešno dodat.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri dodavanju:', err)
       });
 
@@ -59,20 +68,37 @@ export class BioskopDialogComponent {
       };
 
       this.bioskopService.update(izmenjeniBioskop).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+
+          this.snackBar.open(
+            'Bioskop je uspešno izmenjena.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri izmeni:', err)
       });
 
     } else if (this.flag === 3) {
       this.bioskopService.delete(Number(this.data.id)).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+          this.snackBar.open(
+            'Bioskop je uspešno obrisan.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => {
           console.error('Greška pri brisanju bioskopa:', err);
 
           this.snackBar.open(
             'Nije moguće obrisati bioskop jer u njemu još uvek postoje sale!',
             'Zatvori',
-            { duration: 5000 }
+            { duration: 5000, panelClass: ['error-snackbar'] }
           );
         }
       });

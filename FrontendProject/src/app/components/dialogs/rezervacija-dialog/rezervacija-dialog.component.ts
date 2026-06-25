@@ -16,6 +16,8 @@ import { SalaService } from '../../../services/sala.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 
@@ -33,11 +35,12 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
 
   ],
   templateUrl: './rezervacija-dialog.component.html',
-    styleUrl: './rezervacija-dialog.component.css'
+  styleUrl: './rezervacija-dialog.component.css'
 
 })
 export class RezervacijaDialogComponent implements OnInit {
@@ -51,7 +54,9 @@ export class RezervacijaDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Rezervacija,
     private rezervacijaService: RezervacijaService,
     private filmService: FilmService,
-    private salaService: SalaService
+    private salaService: SalaService,
+    private snackBar: MatSnackBar
+
   ) { }
 
   ngOnInit(): void {
@@ -91,7 +96,16 @@ export class RezervacijaDialogComponent implements OnInit {
       };
 
       this.rezervacijaService.create(novaRezervacija as any).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+
+          this.snackBar.open(
+            'Rezervacija je uspešno dodata.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri dodavanju rezervacije:', err)
       });
     } else if (this.flag === 2) {
@@ -106,12 +120,29 @@ export class RezervacijaDialogComponent implements OnInit {
       };
 
       this.rezervacijaService.update(izmenjenaRezervacija as any).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+
+          this.snackBar.open(
+            'Rezervacija je uspešno izmenjena.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri izmeni rezervacije:', err)
       });
     } else if (this.flag === 3) {
       this.rezervacijaService.delete(Number(this.data.id)).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+          this.snackBar.open(
+            'Rezervacija je uspešno obrisana.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri brisanju rezervacije:', err)
       });
     }

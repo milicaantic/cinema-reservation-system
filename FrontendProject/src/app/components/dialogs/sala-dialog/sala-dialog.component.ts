@@ -30,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
   ],
   templateUrl: './sala-dialog.component.html',
-   styleUrl: './sala-dialog.component.css'
+  styleUrl: './sala-dialog.component.css'
 
 })
 export class SalaDialogComponent implements OnInit {
@@ -66,7 +66,16 @@ export class SalaDialogComponent implements OnInit {
       };
 
       this.salaService.create(novaSala).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+
+          this.snackBar.open(
+            'Sala je uspešno dodata.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri dodavanju sale:', err)
       });
     } else if (this.flag === 2) {
@@ -78,12 +87,29 @@ export class SalaDialogComponent implements OnInit {
       };
 
       this.salaService.update(izmenjenaSala).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+
+          this.snackBar.open(
+            'Sala je uspešno izmenjena.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => console.error('Greška pri izmeni sale:', err)
       });
     } else if (this.flag === 3) {
       this.salaService.delete(Number(this.data.id)).subscribe({
-        next: () => this.dialogRef.close(1),
+        next: () => {
+          this.snackBar.open(
+            'Sala je uspešno obrisana.',
+            'Zatvori',
+            { duration: 3000 }
+          );
+
+          this.dialogRef.close(1);
+        },
         error: (err: any) => {
           console.error('Greška pri brisanju sale:', err);
 

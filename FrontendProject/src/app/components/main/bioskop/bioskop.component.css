@@ -14,3 +14,22 @@ table {
 .mat-mdc-header-cell {
   font-weight: bold;
 }
+tr.mat-mdc-row:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.2s ease;
+}
+
+.selektovan-red {
+  background-color: #e3f2fd !important;
+}
+
+.selektovan-red:hover {
+  background-color: #f5f5f5 !important;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+
