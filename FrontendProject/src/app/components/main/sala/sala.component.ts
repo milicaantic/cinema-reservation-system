@@ -66,16 +66,19 @@ export class SalaComponent implements OnInit {
 
   pretraziKapacitet() {
 
+    this.selektovanaSala = null;
+    this.dataSourceRezervacije.data = []
+
     this.brojRedovaFilter = '';
 
     const vrednost = Number(this.kapacitetFilter);
 
-      if (vrednost > 1000) {
+    if (vrednost > 1000) {
       this.kapacitetFilter = "1000";
     } else if (vrednost < 1) {
       this.kapacitetFilter = "";
     } else {
-      this.kapacitetFilter = vrednost.toString();; 
+      this.kapacitetFilter = vrednost.toString();;
     }
 
     if (!this.kapacitetFilter) {
@@ -96,16 +99,19 @@ export class SalaComponent implements OnInit {
 
   pretraziBrojRedova() {
 
+    this.selektovanaSala = null;
+    this.dataSourceRezervacije.data = []
+
     this.kapacitetFilter = '';
 
     const vrednost = Number(this.brojRedovaFilter);
 
-      if (vrednost > 100) {
+    if (vrednost > 100) {
       this.brojRedovaFilter = "100";
     } else if (vrednost < 1) {
       this.brojRedovaFilter = "";
     } else {
-      this.brojRedovaFilter = vrednost.toString();; 
+      this.brojRedovaFilter = vrednost.toString();;
     }
 
     if (!this.brojRedovaFilter) {
@@ -159,16 +165,16 @@ export class SalaComponent implements OnInit {
 
   formatirajDatum(datum: any): string {
 
-  if (!datum) return 'Nije postavljen';
+    if (!datum) return 'Nije postavljen';
 
-  const d = new Date(datum);
+    const d = new Date(datum);
 
-  if (isNaN(d.getTime())) {
-    return 'Nevažeći datum';
+    if (isNaN(d.getTime())) {
+      return 'Nevažeći datum';
+    }
+
+    return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}.`;
   }
-
-  return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}.`;
-}
 
   otvoriDialogRezervaciju(flag: number, rez?: Rezervacija): void {
     if (flag === 2 && rez) {
@@ -180,7 +186,16 @@ export class SalaComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(RezervacijaDialogComponent, {
-      data: flag === 1 ? { sala: this.selektovanaSala, placeno: false } : { ...rez },
+      data: flag === 1
+        ? {
+          sala: this.selektovanaSala,
+          placeno: false,
+          fromSala: true
+        }
+        : {
+          ...rez,
+          fromSala: true
+        },
       width: '400px'
     });
     dialogRef.componentInstance.flag = flag;

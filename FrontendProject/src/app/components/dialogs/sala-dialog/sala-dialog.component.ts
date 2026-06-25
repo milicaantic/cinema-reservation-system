@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,18 +36,25 @@ import { MatIconModule } from '@angular/material/icon';
 export class SalaDialogComponent implements OnInit {
   public flag!: number;
   public bioskopi: Bioskop[] = [];
+  public fromBioskop = false;
 
   constructor(
     public dialogRef: MatDialogRef<SalaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Sala,
     private salaService: SalaService,
     private bioskopService: BioskopService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    if ((this.data as any).fromBioskop) {
+    this.fromBioskop = true;
+  }
     this.bioskopService.getAll().subscribe({
-      next: (res) => this.bioskopi = res,
+      next: (res) =>{ this.bioskopi = res,  
+          this.cdr.detectChanges();
+      },
       error: (err: any) => console.error(err)
     });
   }

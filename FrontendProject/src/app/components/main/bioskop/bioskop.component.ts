@@ -65,6 +65,9 @@ export class BioskopComponent implements OnInit {
 
   pretraziNaziv() {
 
+    this.selektovaniBioskop = null;
+    this.dataSourceSale.data = [];
+
     this.adresaFilter = '';
 
     if (this.nazivFilter.trim() === '') {
@@ -81,6 +84,9 @@ export class BioskopComponent implements OnInit {
   }
 
   pretraziAdresu() {
+
+    this.selektovaniBioskop = null;
+    this.dataSourceSale.data = [];
 
     this.nazivFilter = '';
 
@@ -126,10 +132,12 @@ export class BioskopComponent implements OnInit {
 
   otvoriDialog(flag: number, bioskop?: Bioskop): void {
 
-    const dialogRef = this.dialog.open(BioskopDialogComponent, {
-      data: flag === 1 ? {} as Bioskop : { ...bioskop },
-      width: '400px'
-    });
+    const dialogRef =
+
+      this.dialog.open(BioskopDialogComponent, {
+        data: flag === 1 ? {} as Bioskop : { ...bioskop },
+        width: '400px'
+      });
 
     dialogRef.componentInstance.flag = flag;
 
@@ -142,9 +150,14 @@ export class BioskopComponent implements OnInit {
 
   otvoriDialogSalu(flag: number, sala?: Sala): void {
     const dialogRef = this.dialog.open(SalaDialogComponent, {
-      data: flag === 1 ? { bioskop: this.selektovaniBioskop } : { ...sala },
-      width: '400px'
-    });
+    data: {
+      ...(flag === 1
+        ? { bioskop: this.selektovaniBioskop }
+        : { ...sala }),
+      fromBioskop: true
+    },
+    width: '400px'
+  });
 
     dialogRef.componentInstance.flag = flag;
 
