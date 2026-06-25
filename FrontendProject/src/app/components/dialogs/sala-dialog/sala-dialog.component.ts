@@ -11,6 +11,9 @@ import { Bioskop } from '../../../models/bioskop';
 import { SalaService } from '../../../services/sala.service';
 import { BioskopService } from '../../../services/bioskop.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+
+
 
 @Component({
   selector: 'app-sala-dialog',
@@ -23,9 +26,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
-  templateUrl: './sala-dialog.component.html'
+  templateUrl: './sala-dialog.component.html',
+   styleUrl: './sala-dialog.component.css'
+
 })
 export class SalaDialogComponent implements OnInit {
   public flag!: number;

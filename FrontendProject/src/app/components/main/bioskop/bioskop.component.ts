@@ -21,24 +21,33 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-bioskop',
   standalone: true,
   imports: [
-    CommonModule, MatTableModule, MatIconModule, MatButtonModule,
-    MatDialogModule, MatSortModule, MatPaginatorModule, MatFormFieldModule,
-    MatInputModule, FormsModule
+    CommonModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   templateUrl: './bioskop.component.html',
   styleUrls: ['./bioskop.component.css']
 })
+
 export class BioskopComponent implements OnInit {
   nazivFilter = '';
   adresaFilter = '';
   displayedColumns: string[] = ['id', 'naziv', 'adresa', 'actions'];
   dataSource = new MatTableDataSource<Bioskop>([]);
   @ViewChild('paginatorBioskop') paginatorBioskop!: MatPaginator;
+  @ViewChild('sortBioskop') sortBioskop!: MatSort;
+
 
   saleColumns: string[] = ['id', 'kapacitet', 'brojRedova', 'actions'];
   dataSourceSale = new MatTableDataSource<Sala>([]);
   @ViewChild('paginatorSale') paginatorSale!: MatPaginator;
-  @ViewChild('sortBioskop') sortBioskop!: MatSort;
   @ViewChild('sortSale') sortSale!: MatSort;
 
   selektovaniBioskop: Bioskop | null = null;
@@ -66,12 +75,11 @@ export class BioskopComponent implements OnInit {
 
     this.bioskopService.findByNaziv(this.nazivFilter)
       .subscribe({
-        next: (data) => {
-          this.dataSource.data = data;
-        },
+        next: (data) => { this.dataSource.data = data; },
         error: (err) => console.error(err)
       });
   }
+
   pretraziAdresu() {
 
     this.nazivFilter = '';
@@ -82,17 +90,24 @@ export class BioskopComponent implements OnInit {
     }
 
     this.bioskopService.findByAdresa(this.adresaFilter)
-      .subscribe(data => {
-        this.dataSource.data = data;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
       });
   }
+
   ucitajBioskope(): void {
     this.bioskopService.getAll().subscribe({
       next: (data) => {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginatorBioskop;
         this.dataSource.sort = this.sortBioskop;
-      }
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(err)
+
     });
   }
 
@@ -104,7 +119,8 @@ export class BioskopComponent implements OnInit {
         this.dataSourceSale.paginator = this.paginatorSale;
         this.dataSourceSale.sort = this.sortSale;
         this.cdr.detectChanges();
-      }
+      },
+      error: (err) => console.error(err)
     });
   }
 
@@ -138,9 +154,5 @@ export class BioskopComponent implements OnInit {
       }
     });
   }
-  zatvoriSale(): void {
-    this.selektovaniBioskop = null;
-    this.dataSourceSale.data = [];
-    this.cdr.detectChanges();
-  }
+
 }

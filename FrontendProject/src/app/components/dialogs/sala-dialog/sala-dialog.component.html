@@ -7,13 +7,13 @@
     <form #forma="ngForm">
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Kapacitet</mat-label>
+        <mat-label>Kapacitet (1-1000)</mat-label>
         <input matInput type="number" [(ngModel)]="data.kapacitet" name="kapacitet" [disabled]="flag === 3" required
           min="1" max="1000">
       </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Broj redova</mat-label>
+        <mat-label>Broj redova (1-100) </mat-label>
         <input matInput type="number" [(ngModel)]="data.brojRedova" name="brojRedova" [disabled]="flag === 3" required
           min="1" max="100">
       </mat-form-field>
@@ -30,6 +30,11 @@
 
     </form>
   </div>
+  
+  <div class="dialog-info">
+  <mat-icon>info</mat-icon>
+  <span> Obavezna polja (*) i validacioni uslovi moraju biti ispunjeni.</span>
+</div>
 
   <div mat-dialog-actions style="display: flex; justify-content: flex-end; gap: 10px; padding: 15px 0;">
     <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid"

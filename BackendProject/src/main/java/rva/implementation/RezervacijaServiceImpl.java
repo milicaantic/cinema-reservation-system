@@ -2,10 +2,7 @@ package rva.implementation;
 
 import java.sql.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import jakarta.transaction.Transactional;
 import rva.model.Rezervacija;
 import rva.repository.RezervacijaRepository;

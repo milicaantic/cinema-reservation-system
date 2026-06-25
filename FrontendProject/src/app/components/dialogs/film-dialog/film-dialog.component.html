@@ -7,30 +7,34 @@
     <form #forma="ngForm">
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Naziv filma</mat-label>
+        <mat-label>Naziv filma (1-100 karaktera)</mat-label>
         <input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag === 3" required minlength="2"
           maxlength="100">
       </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Žanr</mat-label>
+        <mat-label>Žanr (1-200 karaktera)</mat-label>
         <input matInput [(ngModel)]="data.zanr" name="zanr" [disabled]="flag === 3" required minlength="2"
           maxlength="50"> </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Trajanje (min)</mat-label>
+        <mat-label>Trajanje (1-600 min)</mat-label>
         <input matInput type="number" [(ngModel)]="data.trajanje" name="trajanje" [disabled]="flag === 3" required
           min="1" max="600">
       </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-        <mat-label>Recenzija</mat-label>
+        <mat-label>Recenzija (1-10)</mat-label>
         <input matInput type="number" [(ngModel)]="data.recenzija" name="recenzija" [disabled]="flag === 3" required
           min="1" max="10">
       </mat-form-field>
 
     </form>
   </div>
+  <div class="dialog-info">
+  <mat-icon>info</mat-icon>
+  <span> Obavezna polja (*) i validacioni uslovi moraju biti ispunjeni.</span>
+</div>
 
   <div mat-dialog-actions style="display: flex; justify-content: flex-end; gap: 10px; padding: 15px 0;">
     <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid"

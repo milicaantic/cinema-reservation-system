@@ -19,8 +19,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 
 
-
-
 @Component({
   selector: 'app-app-rezervacija',
   standalone: true,
@@ -74,8 +72,11 @@ export class RezervacijaComponent implements OnInit {
 
     this.rezervacijaService
       .findByPlaceno(jePlaceno)
-      .subscribe(data => {
-        this.dataSource.data = data;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
       });
   }
 
@@ -84,16 +85,28 @@ export class RezervacijaComponent implements OnInit {
     this.placenoFilter = '';
     this.datumFilter = null;
 
-    if (!this.brojOsobaFilter) {
+    const vrednost = Number(this.brojOsobaFilter);
+
+      if (vrednost > 9999) {
+      this.brojOsobaFilter = "999";
+    } else if (vrednost < 1) {
+      this.brojOsobaFilter = "";
+    } else {
+      this.brojOsobaFilter = vrednost.toString();; 
+    }
+
+    if (this.brojOsobaFilter === '') {
       this.ucitajRezervacije();
       return;
     }
 
-
     this.rezervacijaService
       .findByBrojOsoba(Number(this.brojOsobaFilter))
-      .subscribe(data => {
-        this.dataSource.data = data;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
       });
   }
   pretraziDatumSaDatepickera() {
@@ -106,20 +119,27 @@ export class RezervacijaComponent implements OnInit {
       return;
     }
 
-
     const godina = this.datumFilter.getFullYear();
     const mesec = String(this.datumFilter.getMonth() + 1).padStart(2, '0');
     const dan = String(this.datumFilter.getDate()).padStart(2, '0');
 
     const datum = `${godina}-${mesec}-${dan}`;
 
-
     this.rezervacijaService
       .findByDatum(datum)
-      .subscribe(data => {
-        this.dataSource.data = data;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
       });
   }
+
+    ocistiPretraguDatuma(event: MouseEvent) {
+      event.stopPropagation(); 
+      this.datumFilter = null;
+      this.ucitajRezervacije(); 
+    }
 
   ucitajRezervacije(): void {
     this.rezervacijaService.getAll().subscribe({
@@ -133,32 +153,21 @@ export class RezervacijaComponent implements OnInit {
     });
   }
 
-  formatirajDatum(lepiDatum: any): string {
-    if (!lepiDatum) return 'Nije postavljen';
+  formatirajDatum(datum: any): string {
 
-    const tekstDatuma = String(lepiDatum);
+  if (!datum) return 'Nije postavljen';
 
-    if (tekstDatuma.startsWith('+0000') || tekstDatuma.startsWith('0000')) {
-      return 'Nevažeći datum';
-    }
+  const d = new Date(datum);
 
-    try {
-      const d = new Date(tekstDatuma);
-      if (isNaN(d.getTime())) {
-        return 'Nevažeći datum';
-      }
-
-      const dan = String(d.getDate()).padStart(2, '0');
-      const mesec = String(d.getMonth() + 1).padStart(2, '0');
-      const godina = d.getFullYear();
-
-
-      return `${dan}.${mesec}.${godina}.`;
-    } catch (e) {
-      return 'Nevažeći datum';
-    }
+  if (isNaN(d.getTime())) {
+    return 'Nevažeći datum';
   }
+
+  return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}.`;
+}
+
   otvoriDialog(flag: number, rezervacija?: Rezervacija): void {
+
     if (flag === 2 && rezervacija) {
       const datum = new Date(rezervacija.datum as any);
       if (datum < new Date()) {

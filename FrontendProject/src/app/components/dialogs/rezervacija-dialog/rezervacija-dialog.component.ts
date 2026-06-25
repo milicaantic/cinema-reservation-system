@@ -36,7 +36,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
 
   ],
-  templateUrl: './rezervacija-dialog.component.html'
+  templateUrl: './rezervacija-dialog.component.html',
+    styleUrl: './rezervacija-dialog.component.css'
+
 })
 export class RezervacijaDialogComponent implements OnInit {
   public flag!: number;
@@ -53,10 +55,6 @@ export class RezervacijaDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    /* if (this.flag === 1) {
-       this.data.placeno = false;
-     }*/
 
     if (this.data?.datum) {
       this.data.datum = new Date(this.data.datum as any);

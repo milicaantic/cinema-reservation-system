@@ -22,8 +22,18 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-sala',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule, MatDialogModule, MatSortModule, MatPaginatorModule, MatFormFieldModule,
-    MatInputModule, MatSnackBarModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    FormsModule],
   templateUrl: './sala.component.html',
   styleUrls: ['./sala.component.css']
 })
@@ -33,13 +43,13 @@ export class SalaComponent implements OnInit {
   displayedColumns: string[] = ['id', 'kapacitet', 'brojRedova', 'bioskop', 'actions'];
   dataSource = new MatTableDataSource<Sala>([]);
   @ViewChild('paginatorSale') paginatorSale!: MatPaginator;
+  @ViewChild('sortSale') sortSale!: MatSort;
 
   rezervacijeColumns: string[] = ['id', 'datum', 'brojOsoba', 'cenaKarte', 'film', 'status', 'actions'];
   dataSourceRezervacije = new MatTableDataSource<Rezervacija>([]);
   @ViewChild('paginatorRez') paginatorRez!: MatPaginator;
-
-  @ViewChild('sortSale') sortSale!: MatSort;
   @ViewChild('sortRezervacije') sortRezervacije!: MatSort;
+
   selektovanaSala: Sala | null = null;
 
   constructor(
@@ -50,23 +60,23 @@ export class SalaComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  ngOnInit(): void { this.ucitajSale(); }
-
-  ucitajSale(): void {
-    this.salaService.getAll().subscribe(data => {
-      this.dataSource.data = data;
-      this.dataSource.paginator = this.paginatorSale;
-      this.dataSource.sort = this.sortSale;
-    });
+  ngOnInit(): void {
+    this.ucitajSale();
   }
 
-  formatirajDatum(datum: any): string {
-    if (!datum) return '';
-    return new Date(datum).toLocaleDateString('sr-RS');
-  }
   pretraziKapacitet() {
 
     this.brojRedovaFilter = '';
+
+    const vrednost = Number(this.kapacitetFilter);
+
+      if (vrednost > 1000) {
+      this.kapacitetFilter = "1000";
+    } else if (vrednost < 1) {
+      this.kapacitetFilter = "";
+    } else {
+      this.kapacitetFilter = vrednost.toString();; 
+    }
 
     if (!this.kapacitetFilter) {
       this.ucitajSale();
@@ -75,13 +85,28 @@ export class SalaComponent implements OnInit {
 
     this.salaService
       .findByKapacitet(Number(this.kapacitetFilter))
-      .subscribe(data => {
-        this.dataSource.data = data;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
       });
+
   }
+
   pretraziBrojRedova() {
 
     this.kapacitetFilter = '';
+
+    const vrednost = Number(this.brojRedovaFilter);
+
+      if (vrednost > 100) {
+      this.brojRedovaFilter = "100";
+    } else if (vrednost < 1) {
+      this.brojRedovaFilter = "";
+    } else {
+      this.brojRedovaFilter = vrednost.toString();; 
+    }
 
     if (!this.brojRedovaFilter) {
       this.ucitajSale();
@@ -90,22 +115,39 @@ export class SalaComponent implements OnInit {
 
     this.salaService
       .findByBrojRedova(Number(this.brojRedovaFilter))
-      .subscribe(data => {
-        this.dataSource.data = data;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
       });
+  }
+
+  ucitajSale(): void {
+    this.salaService.getAll().subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+        this.dataSource.paginator = this.paginatorSale;
+        this.dataSource.sort = this.sortSale;
+      },
+      error: (err) => console.error(err)
+    });
   }
 
   izaberiSalu(sala: Sala): void {
     this.selektovanaSala = sala;
-    this.rezervacijaService.getAll().subscribe(sveRezervacije => {
-      this.dataSourceRezervacije.data = sveRezervacije.filter(r => r.sala?.id === sala.id);
-      this.dataSourceRezervacije.paginator = this.paginatorRez;
-      this.dataSourceRezervacije.sort = this.sortRezervacije;
-      this.cdr.detectChanges();
+    this.rezervacijaService.getAll().subscribe({
+      next: (sveRezervacije) => {
+        this.dataSourceRezervacije.data = sveRezervacije.filter(r => r.sala?.id === sala.id);
+        this.dataSourceRezervacije.paginator = this.paginatorRez;
+        this.dataSourceRezervacije.sort = this.sortRezervacije;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(err)
     });
   }
 
-  otvoriDialogSalu(flag: number, sala?: Sala): void {
+  otvoriDialog(flag: number, sala?: Sala): void {
     const dialogRef = this.dialog.open(SalaDialogComponent, {
       data: flag === 1 ? {} : { ...sala },
       width: '400px'
@@ -113,6 +155,20 @@ export class SalaComponent implements OnInit {
     dialogRef.componentInstance.flag = flag;
     dialogRef.afterClosed().subscribe(result => { if (result === 1) this.ucitajSale(); });
   }
+
+
+  formatirajDatum(datum: any): string {
+
+  if (!datum) return 'Nije postavljen';
+
+  const d = new Date(datum);
+
+  if (isNaN(d.getTime())) {
+    return 'Nevažeći datum';
+  }
+
+  return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}.`;
+}
 
   otvoriDialogRezervaciju(flag: number, rez?: Rezervacija): void {
     if (flag === 2 && rez) {

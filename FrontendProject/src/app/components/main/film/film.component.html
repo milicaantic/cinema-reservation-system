@@ -1,26 +1,32 @@
-<h1>Film</h1>
+<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+  <h1 style="margin: 0;">Film</h1>
+
+  <button class="krug-dugme" (click)="otvoriDialog(1)">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
 
 <div class="container mat-elevation-z8" style="padding: 15px;">
 
-  <div style="margin-bottom: 15px;">
-    <button class="krug-dugme"  (click)="otvoriDialog(1)">
-      <mat-icon>add</mat-icon></button>
-  </div>
+
   <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
 
     <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-      <input matInput [(ngModel)]="nazivFilter" (keyup)="pretraziNaziv()" placeholder="Pretraži naziv">
+      <mat-label>Pretraži naziv</mat-label>
+      <input matInput [(ngModel)]="nazivFilter"  maxlength="100" (keyup)="pretraziNaziv()" placeholder="Unesi naziv...">
     </mat-form-field>
 
 
     <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-      <input matInput  [(ngModel)]="zanrFilter" (keyup)="pretraziZanr()" placeholder="Pretraži žanr">
+      <mat-label>Pretraži žanr</mat-label>
+      <input matInput [(ngModel)]="zanrFilter"  maxlength="50" (keyup)="pretraziZanr()" placeholder="Unesi žanr...">
     </mat-form-field>
 
 
     <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-      <input matInput  [(ngModel)]="recenzijaFilter" type="number" min="1" max="10" (keyup)="pretraziRecenziju()"
-        placeholder="Recenzija veća od">
+      <mat-label>Recenzija veća od (1-10): </mat-label>
+      <input matInput [(ngModel)]="recenzijaFilter" type="number" min="1" max="10" (keyup)="pretraziRecenziju()"
+        placeholder="Unesi recenziju...">
     </mat-form-field>
   </div>
   <table mat-table [dataSource]="dataSource" matSort #sortFilm="matSort" style="width: 100%;">

@@ -9,7 +9,7 @@
         <mat-label>Datum</mat-label>
 
         <input matInput [matDatepicker]="picker" [(ngModel)]="data.datum" name="datum" [disabled]="flag === 3"
-          [min]="flag === 1 ? danas : null" required>
+          [min]="flag === 1 ? danas : null" required readonly>
 
         <mat-datepicker-toggle matIconSuffix [for]="picker">
         </mat-datepicker-toggle>
@@ -19,13 +19,15 @@
       </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
+                <mat-label>Broj osoba (1-1000)</mat-label>
         <input matInput type="number" [(ngModel)]="data.brojOsoba" name="brojOsoba" [disabled]="flag === 3" required
-          min="1" max="100">
+          min="1" max="1000">
       </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
+                        <mat-label>Cena karte (1-100000)</mat-label>
         <input matInput type="number" [(ngModel)]="data.cenaKarte" name="cenaKarte" [disabled]="flag === 3" required
-          min="0.01"> </mat-form-field>
+          min="1.00"> </mat-form-field>
 
       <div style="margin-bottom: 15px; padding-left: 5px;">
         <mat-checkbox [(ngModel)]="data.placeno" name="placeno" [disabled]="flag === 3" color="primary">
@@ -54,11 +56,16 @@
 
     </form>
   </div>
-
+  <div class="dialog-info">
+  <mat-icon>info</mat-icon>
+  <span> Obavezna polja (*) i validacioni uslovi moraju biti ispunjeni.</span>
+</div>
   <div mat-dialog-actions style="display: flex; justify-content: flex-end; gap: 10px; padding: 15px 0;">
     <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid"
       (click)="proveriLogiku()">Sačuvaj</button>
     <button mat-raised-button *ngIf="flag === 3" color="warn" (click)="proveriLogiku()">Obriši</button>
     <button mat-button (click)="ponisti()">Poništi</button>
   </div>
+
+
 </div>

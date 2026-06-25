@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { Bioskop } from '../../../models/bioskop';
 import { BioskopService } from '../../../services/bioskop.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-bioskop-dialog',
@@ -19,9 +21,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
-  templateUrl: './bioskop-dialog.component.html'
+  templateUrl: './bioskop-dialog.component.html',
+      styleUrl: './bioskop-dialog.component.css'
+
 })
 export class BioskopDialogComponent {
   public flag!: number;

@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { Film } from '../../../models/film';
 import { FilmService } from '../../../services/film.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-film-dialog',
@@ -19,9 +21,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
-  templateUrl: './film-dialog.component.html'
+  templateUrl: './film-dialog.component.html',
+      styleUrl: './film-dialog.component.css'
+
 })
 export class FilmDialogComponent {
   public flag!: number;

@@ -1,23 +1,25 @@
-<h1>Bioskop</h1>
+<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+  <h1 style="margin: 0;">Bioskop</h1>
+
+  <button class="krug-dugme" (click)="otvoriDialog(1)">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
 
 <div class="container mat-elevation-z8" style="padding: 15px; margin-bottom: 30px;">
 
-  <div style="margin-bottom: 15px;">
-    <button class="krug-dugme"  (click)="otvoriDialog(1)">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
+
 
   <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
 
     <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
       <mat-label>Pretraži naziv</mat-label>
-      <input matInput [(ngModel)]="nazivFilter" (keyup)="pretraziNaziv()" placeholder="Unesi naziv...">
+      <input matInput [(ngModel)]="nazivFilter" maxlength="100" (keyup)="pretraziNaziv()" placeholder="Unesi naziv...">
     </mat-form-field>
 
     <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
       <mat-label>Pretraži adresu</mat-label>
-      <input matInput [(ngModel)]="adresaFilter" (keyup)="pretraziAdresu()" placeholder="Unesi adresu...">
+      <input matInput [(ngModel)]="adresaFilter"  maxlength="200" (keyup)="pretraziAdresu()" placeholder="Unesi adresu...">
     </mat-form-field>
 
   </div>
@@ -53,18 +55,20 @@
 
 <div *ngIf="selektovaniBioskop" class="container mat-elevation-z8" style="padding: 15px; background-color: #fafafa;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-    <h1>Sale za: {{selektovaniBioskop.naziv}}</h1>
 
-    <div style="display: flex; gap: 10px;">
-      <button class="krug-dugme" (click)="otvoriDialogSalu(1)">
-        <mat-icon>add</mat-icon>
-      </button>
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <h1 style="margin: 0;">Sale za: {{selektovaniBioskop.naziv}}</h1>
 
-      <button mat-icon-button color="warn" (click)="zatvoriSale()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+    <button class="krug-dugme" (click)="otvoriDialogSalu(1)">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
+
+  <button mat-icon-button color="warn" (click)="selektovaniBioskop = null">
+    <mat-icon>close</mat-icon>
+  </button>
+
+</div>
 
   <table mat-table [dataSource]="dataSourceSale" matSort #sortSale="matSort" style="width: 100%;">
     <ng-container matColumnDef="id">

@@ -1,22 +1,28 @@
-<h1>Rezervacija</h1>
+<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+  <h1 style="margin: 0;">Rezervacija</h1>
+
+  <button class="krug-dugme" (click)="otvoriDialog(1)">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
 
 <div class="container mat-elevation-z8" style="padding: 15px;">
 
-  <div style="margin-bottom: 15px;">
-    <button class="krug-dugme" (click)="otvoriDialog(1)">
-      <mat-icon>add</mat-icon></button>
-  </div>
   <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
 
     <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-      <input matInput  [(ngModel)]="brojOsobaFilter" type="number" min="1" max="100" (keyup)="pretraziBrojOsoba()"
-        placeholder="Broj osoba veći od">
+       <mat-label>Broj osoba veći od (1 - 1000):</mat-label>
+      <input matInput  [(ngModel)]="brojOsobaFilter" type="number" min="1" max="1000" (keyup)="pretraziBrojOsoba()"
+        placeholder="Unesi broj osoba...">
     </mat-form-field>
 
     <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
       <mat-label>Pretraži po datumu</mat-label>
       <input matInput  [(ngModel)]="datumFilter" [matDatepicker]="pickerPretraga" (dateChange)="pretraziDatumSaDatepickera()"
-        placeholder="Izaberi datum">
+        placeholder="Izaberi datum..." readonly>
+        <button mat-icon-button matSuffix *ngIf="datumFilter" (click)="ocistiPretraguDatuma($event)">
+    <mat-icon>clear</mat-icon>
+  </button>
       <mat-datepicker-toggle matIconSuffix [for]="pickerPretraga">
         <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
       </mat-datepicker-toggle>

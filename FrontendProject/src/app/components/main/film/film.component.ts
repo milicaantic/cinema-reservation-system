@@ -17,8 +17,16 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-film',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatPaginatorModule, MatFormFieldModule,
-    MatInputModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule],
   templateUrl: './film.component.html',
   styleUrl: './film.component.css'
 })
@@ -28,9 +36,9 @@ export class FilmComponent implements OnInit {
   recenzijaFilter = '';
   displayedColumns: string[] = ['id', 'naziv', 'zanr', 'trajanje', 'recenzija', 'actions'];
   dataSource = new MatTableDataSource<Film>([]);
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('sortFilm') sortFilm!: MatSort;
+
   constructor(
     private filmService: FilmService,
     private cdr: ChangeDetectorRef,
@@ -51,39 +59,63 @@ export class FilmComponent implements OnInit {
     }
 
     this.filmService.findByNaziv(this.nazivFilter)
-      .subscribe(data => {
-        this.dataSource.data = data;
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
       });
-  } pretraziZanr() {
-
-  this.nazivFilter = '';
-  this.recenzijaFilter = '';
-
-  if (this.zanrFilter.trim() === '') {
-    this.ucitajFilmove();
-    return;
   }
 
-  this.filmService.findByZanr(this.zanrFilter)
-    .subscribe(data => {
-      this.dataSource.data = data;
-    });
-}
+  pretraziZanr() {
+
+    this.nazivFilter = '';
+    this.recenzijaFilter = '';
+
+    if (this.zanrFilter.trim() === '') {
+      this.ucitajFilmove();
+      return;
+    }
+
+    this.filmService
+      .findByZanr(this.zanrFilter)
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
+      });
+  }
+
   pretraziRecenziju() {
 
-  this.nazivFilter = '';
-  this.zanrFilter = '';
+    this.nazivFilter = '';
+    this.zanrFilter = '';
 
-  if (!this.recenzijaFilter) {
-    this.ucitajFilmove();
-    return;
+    const vrednost = Number(this.recenzijaFilter);
+
+      if (vrednost > 10) {
+      this.recenzijaFilter = "10";
+    } else if (vrednost < 1) {
+      this.recenzijaFilter = "";
+    } else {
+      this.recenzijaFilter = vrednost.toString();; 
+    }
+
+    if (this.recenzijaFilter === '') {
+      this.ucitajFilmove();
+      return;
+    }
+
+    this.filmService
+      .findByRecenzija(Number(this.recenzijaFilter))
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
+      });
   }
-
-  this.filmService.findByRecenzija(Number(this.recenzijaFilter))
-    .subscribe(data => {
-      this.dataSource.data = data;
-    });
-}
 
   ucitajFilmove(): void {
     this.filmService.getAll().subscribe({
