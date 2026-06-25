@@ -20,16 +20,19 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
-               "glob": "**/*",
+                "glob": "**/*",
                 "input": "public"
-               },
-               {
-                 "glob": "slika.jpeg",
-                 "input": "src",
-                 "output": "/"
-               }
+              },
+              {
+                "glob": "slika.jpeg",
+                "input": "src",
+                "output": "/"
+              }
             ],
-            "styles": ["src/material-theme.scss", "src/styles.css"]
+            "styles": [
+              "src/material-theme.scss",
+              "src/styles.css"
+            ]
           },
           "configurations": {
             "production": {

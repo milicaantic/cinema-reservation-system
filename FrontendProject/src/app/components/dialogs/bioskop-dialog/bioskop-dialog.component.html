@@ -5,25 +5,26 @@
 
   <div mat-dialog-content>
     <form #forma="ngForm">
-      
+
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <mat-label>Naziv</mat-label>
-<input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag === 3"
-       required minlength="2" maxlength="100">
-            </mat-form-field>
+        <input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag === 3" required minlength="2"
+          maxlength="100">
+      </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <mat-label>Adresa</mat-label>
-<input matInput [(ngModel)]="data.adresa" name="adresa" [disabled]="flag === 3"
-       required minlength="2" maxlength="200">
-            </mat-form-field>
+        <input matInput [(ngModel)]="data.adresa" name="adresa" [disabled]="flag === 3" required minlength="2"
+          maxlength="200">
+      </mat-form-field>
 
 
     </form>
   </div>
 
   <div mat-dialog-actions style="display: flex; justify-content: flex-end; gap: 10px; padding: 15px 0;">
-    <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid" (click)="proveriLogiku()">Sačuvaj</button>
+    <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid"
+      (click)="proveriLogiku()">Sačuvaj</button>
     <button mat-raised-button *ngIf="flag === 3" color="warn" (click)="proveriLogiku()">Obriši</button>
     <button mat-button (click)="ponisti()">Poništi</button>
   </div>

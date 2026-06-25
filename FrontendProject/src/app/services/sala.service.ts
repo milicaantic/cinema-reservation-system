@@ -9,7 +9,7 @@ import { Sala } from '../models/sala';
 export class SalaService {
   private apiUrl = 'http://localhost:8080/sala';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Sala[]> {
     return this.http.get<Sala[]>(this.apiUrl);
@@ -30,15 +30,15 @@ export class SalaService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  findByKapacitet(kapacitet:number){
-  return this.http.get<Sala[]>(
-    `${this.apiUrl}/kapacitet/${kapacitet}`
-  );
-}
+  findByKapacitet(kapacitet: number) {
+    return this.http.get<Sala[]>(
+      `${this.apiUrl}/kapacitet/${kapacitet}`
+    );
+  }
 
-findByBrojRedova(brojRedova:number){
-  return this.http.get<Sala[]>(
-    `${this.apiUrl}/redovi/${brojRedova}`
-  );
-}
+  findByBrojRedova(brojRedova: number) {
+    return this.http.get<Sala[]>(
+      `${this.apiUrl}/redovi/${brojRedova}`
+    );
+  }
 }

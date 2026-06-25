@@ -9,25 +9,28 @@ import { Sala } from '../../../models/sala';
 import { BioskopService } from '../../../services/bioskop.service';
 import { SalaService } from '../../../services/sala.service';
 import { BioskopDialogComponent } from '../../dialogs/bioskop-dialog/bioskop-dialog.component';
-import { SalaDialogComponent } from '../../dialogs/sala-dialog/sala-dialog.component'; 
+import { SalaDialogComponent } from '../../dialogs/sala-dialog/sala-dialog.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-bioskop',
   standalone: true,
   imports: [
     CommonModule, MatTableModule, MatIconModule, MatButtonModule,
-    MatDialogModule, MatSortModule, MatPaginatorModule ,MatFormFieldModule, 
-    MatInputModule 
+    MatDialogModule, MatSortModule, MatPaginatorModule, MatFormFieldModule,
+    MatInputModule, FormsModule
   ],
   templateUrl: './bioskop.component.html',
   styleUrls: ['./bioskop.component.css']
 })
 export class BioskopComponent implements OnInit {
+  nazivFilter = '';
+  adresaFilter = '';
   displayedColumns: string[] = ['id', 'naziv', 'adresa', 'actions'];
   dataSource = new MatTableDataSource<Bioskop>([]);
   @ViewChild('paginatorBioskop') paginatorBioskop!: MatPaginator;
@@ -35,8 +38,8 @@ export class BioskopComponent implements OnInit {
   saleColumns: string[] = ['id', 'kapacitet', 'brojRedova', 'actions'];
   dataSourceSale = new MatTableDataSource<Sala>([]);
   @ViewChild('paginatorSale') paginatorSale!: MatPaginator;
-  @ViewChild('sortBioskop') sortBioskop!: MatSort; 
-@ViewChild('sortSale') sortSale!: MatSort; 
+  @ViewChild('sortBioskop') sortBioskop!: MatSort;
+  @ViewChild('sortSale') sortSale!: MatSort;
 
   selektovaniBioskop: Bioskop | null = null;
 
@@ -45,47 +48,50 @@ export class BioskopComponent implements OnInit {
     private salaService: SalaService,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ucitajBioskope();
   }
 
-pretraziNaziv(naziv: string) {
+  pretraziNaziv() {
 
-  if (naziv.trim() === '') {
-    this.ucitajBioskope(); 
-    return;
+    this.adresaFilter = '';
+
+    if (this.nazivFilter.trim() === '') {
+      this.ucitajBioskope();
+      return;
+    }
+
+
+    this.bioskopService.findByNaziv(this.nazivFilter)
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
+      });
   }
-  
+  pretraziAdresu() {
 
-  this.bioskopService.findByNaziv(naziv)
-    .subscribe({
-      next: (data) => {
+    this.nazivFilter = '';
+
+    if (this.adresaFilter.trim() === '') {
+      this.ucitajBioskope();
+      return;
+    }
+
+    this.bioskopService.findByAdresa(this.adresaFilter)
+      .subscribe(data => {
         this.dataSource.data = data;
-      },
-      error: (err) => console.error(err)
-    });
-}
-pretraziAdresu(adresa:string){
-
- if(adresa.trim()===''){
-   this.ucitajBioskope();
-   return;
- }
-
- this.bioskopService.findByAdresa(adresa)
- .subscribe(data=>{
-   this.dataSource.data=data;
- });
-
-}
+      });
+  }
   ucitajBioskope(): void {
     this.bioskopService.getAll().subscribe({
       next: (data) => {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginatorBioskop;
-        this.dataSource.sort = this.sortBioskop; 
+        this.dataSource.sort = this.sortBioskop;
       }
     });
   }
@@ -102,21 +108,21 @@ pretraziAdresu(adresa:string){
     });
   }
 
- otvoriDialog(flag: number, bioskop?: Bioskop): void {
+  otvoriDialog(flag: number, bioskop?: Bioskop): void {
 
-  const dialogRef = this.dialog.open(BioskopDialogComponent, {
-    data: flag === 1 ? {} as Bioskop : { ...bioskop },
-    width: '400px'
-  });
+    const dialogRef = this.dialog.open(BioskopDialogComponent, {
+      data: flag === 1 ? {} as Bioskop : { ...bioskop },
+      width: '400px'
+    });
 
-  dialogRef.componentInstance.flag = flag;
+    dialogRef.componentInstance.flag = flag;
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === 1) {
-      this.ucitajBioskope();
-    }
-  });
-}
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.ucitajBioskope();
+      }
+    });
+  }
 
   otvoriDialogSalu(flag: number, sala?: Sala): void {
     const dialogRef = this.dialog.open(SalaDialogComponent, {

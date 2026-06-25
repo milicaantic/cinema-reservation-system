@@ -10,7 +10,7 @@ export class BioskopService {
 
   private apiUrl = 'http://localhost:8080/bioskop';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Bioskop[]> {
     return this.http.get<Bioskop[]>(this.apiUrl);
@@ -33,11 +33,11 @@ export class BioskopService {
   }
 
   findByNaziv(naziv: string) {
-  return this.http.get<Bioskop[]>(`${this.apiUrl}/naziv/${naziv}`);
-}
+    return this.http.get<Bioskop[]>(`${this.apiUrl}/naziv/${naziv}`);
+  }
 
 
-findByAdresa(adresa: string) {
-  return this.http.get<Bioskop[]>(`${this.apiUrl}/adresa/${adresa}` );
-}
+  findByAdresa(adresa: string) {
+    return this.http.get<Bioskop[]>(`${this.apiUrl}/adresa/${adresa}`);
+  }
 }

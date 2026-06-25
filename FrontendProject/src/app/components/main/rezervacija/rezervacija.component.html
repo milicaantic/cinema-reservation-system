@@ -1,25 +1,21 @@
-    <h1>Rezervacija</h1>
+<h1>Rezervacija</h1>
 
 <div class="container mat-elevation-z8" style="padding: 15px;">
-  
+
   <div style="margin-bottom: 15px;">
-    <button class="krug-dugme" mat-raised-button color="primary" (click)="otvoriDialog(1)">
+    <button class="krug-dugme" (click)="otvoriDialog(1)">
       <mat-icon>add</mat-icon></button>
   </div>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+  <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
 
-<mat-form-field  appearance="outline" style="flex: 1; min-width: 200px;">
- <input matInput #broj type="number" min="1" max="100"
-(keyup)="pretraziBrojOsoba(broj.value)"
-placeholder="Broj osoba veći od">
-</mat-form-field>
+    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
+      <input matInput  [(ngModel)]="brojOsobaFilter" type="number" min="1" max="100" (keyup)="pretraziBrojOsoba()"
+        placeholder="Broj osoba veći od">
+    </mat-form-field>
 
-<mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
+    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
       <mat-label>Pretraži po datumu</mat-label>
-      <input 
-        matInput 
-        [matDatepicker]="pickerPretraga" 
-        (dateChange)="pretraziDatumSaDatepickera($event.value)"
+      <input matInput  [(ngModel)]="datumFilter" [matDatepicker]="pickerPretraga" (dateChange)="pretraziDatumSaDatepickera()"
         placeholder="Izaberi datum">
       <mat-datepicker-toggle matIconSuffix [for]="pickerPretraga">
         <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
@@ -27,20 +23,20 @@ placeholder="Broj osoba veći od">
       <mat-datepicker #pickerPretraga></mat-datepicker>
     </mat-form-field>
 
-<mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
-  <mat-label>Status plaćanja</mat-label>
-  <mat-select (selectionChange)="pretraziPlaceno($event.value)" defaultValue="">
-    <mat-option value="">Sve rezervacije</mat-option>
-    <mat-option value="true">
-      Plaćeno
-    </mat-option>
-    <mat-option value="false">
-      Nije plaćeno
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-    </div>
-  <table mat-table [dataSource]="dataSource" matSort  #sortRezervacije="matSort"  style="width: 100%;">
+    <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
+      <mat-label>Status plaćanja</mat-label>
+      <mat-select [(ngModel)]="placenoFilter" (selectionChange)="pretraziPlaceno()" defaultValue="">
+        <mat-option value="">Sve rezervacije</mat-option>
+        <mat-option value="true">
+          Plaćeno
+        </mat-option>
+        <mat-option value="false">
+          Nije plaćeno
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <table mat-table [dataSource]="dataSource" matSort #sortRezervacije="matSort" style="width: 100%;">
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
@@ -48,7 +44,7 @@ placeholder="Broj osoba veći od">
     </ng-container>
 
     <ng-container matColumnDef="datum">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Datum  </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Datum </th>
       <td mat-cell *matCellDef="let element"> {{ formatirajDatum(element.datum) }} </td>
     </ng-container>
 
@@ -57,7 +53,7 @@ placeholder="Broj osoba veći od">
       <td mat-cell *matCellDef="let element"> {{element.brojOsoba}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="cenaKarte" >
+    <ng-container matColumnDef="cenaKarte">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Cena karte </th>
       <td mat-cell *matCellDef="let element"> {{element.cenaKarte}} RSD </td>
     </ng-container>

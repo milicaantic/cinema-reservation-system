@@ -16,12 +16,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   selector: 'app-sala-dialog',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatDialogModule, 
-    MatButtonModule, 
-    MatInputModule, 
-    MatFormFieldModule, 
-    MatSelectModule, 
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
     FormsModule,
     MatSnackBarModule
   ],
@@ -58,7 +58,7 @@ export class SalaDialogComponent implements OnInit {
         brojRedova: this.data.brojRedova,
         bioskop: this.data.bioskop
       };
-      
+
       this.salaService.create(novaSala).subscribe({
         next: () => this.dialogRef.close(1),
         error: (err: any) => console.error('Greška pri dodavanju sale:', err)
@@ -80,16 +80,16 @@ export class SalaDialogComponent implements OnInit {
         next: () => this.dialogRef.close(1),
         error: (err: any) => {
           console.error('Greška pri brisanju sale:', err);
-          
+
           this.snackBar.open(
-            'Nije moguće obrisati salu jer za nju postoje aktivne rezervacije!', 
-            'Zatvori', 
+            'Nije moguće obrisati salu jer za nju postoje aktivne rezervacije!',
+            'Zatvori',
             { duration: 5000 }
           );
         }
       });
     }
-  } 
+  }
 
   public ponisti(): void {
     this.dialogRef.close();

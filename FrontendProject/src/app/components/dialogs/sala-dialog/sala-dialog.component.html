@@ -5,22 +5,23 @@
 
   <div mat-dialog-content>
     <form #forma="ngForm">
-      
-      <mat-form-field style="width: 100%; margin-bottom: 10px;">
-<mat-label>Kapacitet</mat-label>
-<input matInput type="number" [(ngModel)]="data.kapacitet" name="kapacitet" [disabled]="flag === 3"
-       required min="1" max="1000">
-            </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
-<mat-label>Broj redova</mat-label>
-<input matInput type="number" [(ngModel)]="data.brojRedova" name="brojRedova" [disabled]="flag === 3"
-       required min="1" max="100">
-            </mat-form-field>
+        <mat-label>Kapacitet</mat-label>
+        <input matInput type="number" [(ngModel)]="data.kapacitet" name="kapacitet" [disabled]="flag === 3" required
+          min="1" max="1000">
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%; margin-bottom: 10px;">
+        <mat-label>Broj redova</mat-label>
+        <input matInput type="number" [(ngModel)]="data.brojRedova" name="brojRedova" [disabled]="flag === 3" required
+          min="1" max="100">
+      </mat-form-field>
 
       <mat-form-field style="width: 100%; margin-bottom: 10px;">
         <mat-label>Bioskop</mat-label>
-        <mat-select [(ngModel)]="data.bioskop" name="bioskop" [compareWith]="compareObjects" [disabled]="flag === 3 || !!data.bioskop && flag === 1" required>
+        <mat-select [(ngModel)]="data.bioskop" name="bioskop" [compareWith]="compareObjects"
+          [disabled]="flag === 3 || !!data.bioskop && flag === 1" required>
           <mat-option *ngFor="let b of bioskopi" [value]="b">
             {{b.naziv}}
           </mat-option>
@@ -31,7 +32,8 @@
   </div>
 
   <div mat-dialog-actions style="display: flex; justify-content: flex-end; gap: 10px; padding: 15px 0;">
-    <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid" (click)="proveriLogiku()">Sačuvaj</button>
+    <button mat-raised-button *ngIf="flag !== 3" color="primary" [disabled]="!forma.valid"
+      (click)="proveriLogiku()">Sačuvaj</button>
     <button mat-raised-button *ngIf="flag === 3" color="warn" (click)="proveriLogiku()">Obriši</button>
     <button mat-button (click)="ponisti()">Poništi</button>
   </div>

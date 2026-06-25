@@ -13,11 +13,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   selector: 'app-film-dialog',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatDialogModule, 
-    MatButtonModule, 
-    MatInputModule, 
-    MatFormFieldModule, 
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
     FormsModule,
     MatSnackBarModule
   ],
@@ -65,12 +65,12 @@ export class FilmDialogComponent {
         next: () => this.dialogRef.close(1),
         error: (err: any) => {
           console.error('Greška pri brisanju filma:', err);
-          
+
           this.snackBar.open(
-            'Nije moguće obrisati film jer postoje aktivne rezervacije za njega!', 
-            'Zatvori', 
+            'Nije moguće obrisati film jer postoje aktivne rezervacije za njega!',
+            'Zatvori',
             {
-              duration: 5000, 
+              duration: 5000,
               horizontalPosition: 'center',
               verticalPosition: 'bottom'
             }

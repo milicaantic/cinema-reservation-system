@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox'; 
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { Rezervacija } from '../../../models/rezervacija';
 import { Film } from '../../../models/film';
@@ -23,17 +23,17 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-rezervacija-dialog',
   standalone: true,
   imports: [
-     CommonModule,
-  MatDialogModule,
-  MatButtonModule,
-  MatInputModule,
-  MatFormFieldModule,
-  MatSelectModule,
-  MatCheckboxModule,
-  FormsModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatIconModule
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule
 
   ],
   templateUrl: './rezervacija-dialog.component.html'
@@ -54,13 +54,13 @@ export class RezervacijaDialogComponent implements OnInit {
 
   ngOnInit(): void {
 
-   /* if (this.flag === 1) {
-      this.data.placeno = false;
-    }*/
+    /* if (this.flag === 1) {
+       this.data.placeno = false;
+     }*/
 
     if (this.data?.datum) {
-  this.data.datum = new Date(this.data.datum as any);
-}
+      this.data.datum = new Date(this.data.datum as any);
+    }
 
     this.filmService.getAll().subscribe({
       next: (res) => this.filmovi = res,
@@ -86,8 +86,8 @@ export class RezervacijaDialogComponent implements OnInit {
     const statusPlacanja = !!this.data.placeno;
 
     if (this.flag === 1) {
-      const novaRezervacija = { 
-        ...this.data, 
+      const novaRezervacija = {
+        ...this.data,
         id: 0,
         placeno: statusPlacanja,
       };
@@ -97,15 +97,15 @@ export class RezervacijaDialogComponent implements OnInit {
         error: (err: any) => console.error('Greška pri dodavanju rezervacije:', err)
       });
     } else if (this.flag === 2) {
-     const izmenjenaRezervacija = {
-  id: this.data.id,
-  brojOsoba: this.data.brojOsoba,
-  cenaKarte: this.data.cenaKarte,
-  datum: this.data.datum,
-  placeno: statusPlacanja,
-  film: this.data.film,
-  sala: this.data.sala
-};
+      const izmenjenaRezervacija = {
+        id: this.data.id,
+        brojOsoba: this.data.brojOsoba,
+        cenaKarte: this.data.cenaKarte,
+        datum: this.data.datum,
+        placeno: statusPlacanja,
+        film: this.data.film,
+        sala: this.data.sala
+      };
 
       this.rezervacijaService.update(izmenjenaRezervacija as any).subscribe({
         next: () => this.dialogRef.close(1),

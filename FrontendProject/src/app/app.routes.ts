@@ -8,7 +8,7 @@ import { AboutComponent } from './components/utility/about/about.component';
 import { AuthorComponent } from './components/utility/author/author.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'author', component: AuthorComponent },
   { path: 'bioskop', component: BioskopComponent },
@@ -16,4 +16,4 @@ export const routes: Routes = [
   { path: 'sala', component: SalaComponent },
   { path: 'rezervacija', component: RezervacijaComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
-  ];
+];

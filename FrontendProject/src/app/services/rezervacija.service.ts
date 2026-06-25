@@ -9,7 +9,7 @@ import { Rezervacija } from '../models/rezervacija';
 export class RezervacijaService {
   private apiUrl = 'http://localhost:8080/rezervacija';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Rezervacija[]> {
     return this.http.get<Rezervacija[]>(this.apiUrl);
@@ -23,28 +23,26 @@ export class RezervacijaService {
     return this.http.post<Rezervacija>(this.apiUrl, rezervacija);
   }
 
- update(rezervacija: Rezervacija): Observable<Rezervacija> {
+  update(rezervacija: Rezervacija): Observable<Rezervacija> {
     return this.http.put<Rezervacija>(this.apiUrl, rezervacija);
-}
+  }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
-  findByPlaceno(placeno:boolean){
-  return this.http.get<Rezervacija[]>(
-    `${this.apiUrl}/placeno/${placeno}`
-  );
-}
 
-findByDatum(datum:string){
-  return this.http.get<Rezervacija[]>(
-    `${this.apiUrl}/datum/${datum}`
-  );
-}
+  findByPlaceno(placeno: boolean) {
+    return this.http.get<Rezervacija[]>(`${this.apiUrl}/placeno/${placeno}`
+    );
+  }
 
-findByBrojOsoba(brojOsoba:number){
-  return this.http.get<Rezervacija[]>(
-    `${this.apiUrl}/brojosoba/${brojOsoba}`
-  );
-}
+  findByDatum(datum: string) {
+    return this.http.get<Rezervacija[]>(`${this.apiUrl}/datum/${datum}`
+    );
+  }
+
+  findByBrojOsoba(brojOsoba: number) {
+    return this.http.get<Rezervacija[]>(`${this.apiUrl}/osobe/${brojOsoba}`
+    );
+  }
 }

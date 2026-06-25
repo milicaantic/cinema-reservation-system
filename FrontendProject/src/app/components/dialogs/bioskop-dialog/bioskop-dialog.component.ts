@@ -5,19 +5,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { Bioskop } from '../../../models/bioskop'; 
-import { BioskopService } from '../../../services/bioskop.service'; 
+import { Bioskop } from '../../../models/bioskop';
+import { BioskopService } from '../../../services/bioskop.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-bioskop-dialog',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatDialogModule, 
-    MatButtonModule, 
-    MatInputModule, 
-    MatFormFieldModule, 
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
     FormsModule,
     MatSnackBarModule
   ],
@@ -29,7 +29,7 @@ export class BioskopDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<BioskopDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Bioskop,
-    private bioskopService: BioskopService ,
+    private bioskopService: BioskopService,
     private snackBar: MatSnackBar
   ) { }
 
@@ -45,7 +45,7 @@ export class BioskopDialogComponent {
         next: () => this.dialogRef.close(1),
         error: (err: any) => console.error('Greška pri dodavanju:', err)
       });
-      
+
     } else if (this.flag === 2) {
       const izmenjeniBioskop: Bioskop = {
         id: this.data.id,
@@ -57,21 +57,21 @@ export class BioskopDialogComponent {
         next: () => this.dialogRef.close(1),
         error: (err: any) => console.error('Greška pri izmeni:', err)
       });
-      
-} else if (this.flag === 3) {
-  this.bioskopService.delete(Number(this.data.id)).subscribe({
-    next: () => this.dialogRef.close(1),
-    error: (err: any) => {
-      console.error('Greška pri brisanju bioskopa:', err);
-      
-      this.snackBar.open(
-        'Nije moguće obrisati bioskop jer u njemu još uvek postoje sale!', 
-        'Zatvori', 
-        { duration: 5000 }
-      );
+
+    } else if (this.flag === 3) {
+      this.bioskopService.delete(Number(this.data.id)).subscribe({
+        next: () => this.dialogRef.close(1),
+        error: (err: any) => {
+          console.error('Greška pri brisanju bioskopa:', err);
+
+          this.snackBar.open(
+            'Nije moguće obrisati bioskop jer u njemu još uvek postoje sale!',
+            'Zatvori',
+            { duration: 5000 }
+          );
+        }
+      });
     }
-  });
-}
   }
 
   public ponisti(): void {

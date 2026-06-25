@@ -10,7 +10,7 @@ export class FilmService {
 
   private apiUrl = 'http://localhost:8080/film';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Film[]> {
     return this.http.get<Film[]>(this.apiUrl);
@@ -32,17 +32,17 @@ export class FilmService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  findByNaziv(naziv:string){
- return this.http.get<Film[]>(`${this.apiUrl}/naziv/${naziv}`);
-}
+  findByNaziv(naziv: string) {
+    return this.http.get<Film[]>(`${this.apiUrl}/naziv/${naziv}`);
+  }
 
 
-findByZanr(zanr:string){
- return this.http.get<Film[]>(`${this.apiUrl}/zanr/${zanr}`);
-}
+  findByZanr(zanr: string) {
+    return this.http.get<Film[]>(`${this.apiUrl}/zanr/${zanr}`);
+  }
 
 
-findByRecenzija(recenzija:number){
- return this.http.get<Film[]>(`${this.apiUrl}/recenzija/${recenzija}`);
-}
+  findByRecenzija(recenzija: number) {
+    return this.http.get<Film[]>(`${this.apiUrl}/recenzija/${recenzija}`);
+  }
 }
