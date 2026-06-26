@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import rva.model.Bioskop;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BioskopControllerIntegrationTest {
 

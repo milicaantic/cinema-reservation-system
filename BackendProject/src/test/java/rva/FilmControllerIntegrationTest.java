@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import rva.model.Film;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FilmControllerIntegrationTest {
 

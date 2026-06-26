@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import rva.model.Sala;
 import rva.model.Bioskop;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SalaControllerIntegrationTest {
 
@@ -76,17 +76,8 @@ class SalaControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
     }
-
     @Test
     @Order(4)
-    void delete() {
-        ResponseEntity<Object> response = template.exchange(
-                apiUrl + "/" + largestId,
-                HttpMethod.DELETE, null,
-                Object.class);
-
-        assertEquals(200, response.getStatusCode().value());
-    }
     void getById() {
 
         ResponseEntity<Sala> response = template.exchange(
@@ -100,6 +91,17 @@ class SalaControllerIntegrationTest {
         assertNotNull(response.getBody());
         assertEquals(largestId, response.getBody().getId());
     }
+    @Test
+    @Order(5)
+    void delete() {
+        ResponseEntity<Object> response = template.exchange(
+                apiUrl + "/" + largestId,
+                HttpMethod.DELETE, null,
+                Object.class);
+
+        assertEquals(200, response.getStatusCode().value());
+    }
+ 
 
     @Test
     @Order(6)

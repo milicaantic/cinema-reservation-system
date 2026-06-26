@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import rva.model.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RezervacijaControllerIntegrationTest {
 
@@ -97,7 +97,7 @@ class RezervacijaControllerIntegrationTest {
         HttpEntity<Rezervacija> entity = new HttpEntity<>(r);
 
         ResponseEntity<Rezervacija> response = template.exchange(
-        		apiUrl + "/" + largestId,
+        		apiUrl,
                 HttpMethod.PUT,
                 entity,
                 Rezervacija.class
@@ -114,7 +114,7 @@ class RezervacijaControllerIntegrationTest {
     void delete() {
 
         ResponseEntity<Void> response = template.exchange(
-        		apiUrl + "/" + largestId,
+        		apiUrl + "/delete/" + largestId,
                 HttpMethod.DELETE,
                 null,
                 Void.class
