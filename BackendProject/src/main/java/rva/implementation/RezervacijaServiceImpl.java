@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.transaction.Transactional;
 import rva.model.Rezervacija;
+import rva.model.Sala;
 import rva.repository.RezervacijaRepository;
+import rva.repository.SalaRepository;
 import rva.service.RezervacijaService;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,9 @@ public class RezervacijaServiceImpl implements RezervacijaService {
 
     @Autowired
     private RezervacijaRepository rezervacijaRepository;
+        
+    @Autowired
+    private SalaRepository salaRepository;
 
     @Override
     public List<Rezervacija> findAll() {
@@ -33,6 +38,12 @@ public class RezervacijaServiceImpl implements RezervacijaService {
 
     @Override
     public Rezervacija save(Rezervacija rezervacija) {
+        if (rezervacija.getSala() != null) {
+        Sala sala = salaRepository.findById(rezervacija.getSala().getId()).orElse(null);
+        if (sala != null && rezervacija.getBrojOsoba() > sala.getKapacitet()) {
+            throw new RuntimeException("Broj osoba prelazi kapacitet sale");
+        }
+    }
         return rezervacijaRepository.save(rezervacija);
     }
 

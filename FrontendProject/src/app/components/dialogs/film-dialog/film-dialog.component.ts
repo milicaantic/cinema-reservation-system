@@ -99,7 +99,7 @@ export class FilmDialogComponent {
           if (err.status === 409) {
 
             this.snackBar.open(
-              'Nije moguće obrisati film jer postoje aktivne rezervacije za njega!',
+              err.error.message,
               'Zatvori',
               {
                 duration: 5000,

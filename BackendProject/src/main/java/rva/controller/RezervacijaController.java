@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import rva.model.Rezervacija;
 import rva.service.RezervacijaService;
 
@@ -79,7 +79,7 @@ public class RezervacijaController {
     }
 
     @PostMapping
-    public ResponseEntity<Rezervacija> create(@RequestBody Rezervacija rezervacija) {
+    public ResponseEntity<Rezervacija> create(@Valid @RequestBody Rezervacija rezervacija) {
 
         try {
 
@@ -94,10 +94,12 @@ public class RezervacijaController {
     }
 
    @PutMapping
-public ResponseEntity<Rezervacija> update(@RequestBody Rezervacija r) {
+public ResponseEntity<Rezervacija> update(@Valid @RequestBody Rezervacija r) {
     try {
-        Rezervacija updated = rezervacijaService.update(r);
-        return new ResponseEntity<>(updated, HttpStatus.OK);
+        Rezervacija izmenjen = rezervacijaService.update(r);
+        if (izmenjen == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(izmenjen, HttpStatus.OK);
     } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

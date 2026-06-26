@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 public class Rezervacija {
@@ -18,8 +20,14 @@ public class Rezervacija {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="rezervacija_seq")
 	
 	private long id;
+
+	@Min(1)
 	private int brojOsoba;
+
+	@Min(1)
 	private double cenaKarte;
+
+	@NotNull
 	private Date datum;
 	private boolean placeno;
 	

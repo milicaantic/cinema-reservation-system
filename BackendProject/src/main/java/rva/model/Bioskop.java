@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 public class Bioskop {
@@ -17,7 +19,13 @@ public class Bioskop {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bioskop_seq")
 
 	private long id;
+
+	@NotBlank
+	@Size(min=2, max=100)
 	private String naziv;
+
+	@NotBlank
+	@Size(min = 2, max = 200)
 	private String adresa;
 	
 	@OneToMany(mappedBy = "bioskop")

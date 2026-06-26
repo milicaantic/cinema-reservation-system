@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 public class Sala {
@@ -20,7 +22,11 @@ public class Sala {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sala_seq")
 
 	private long id;
+
+	@Min(1) @Max(1000)
 	private int kapacitet;
+
+	@Min(1) @Max(100)
 	private int brojRedova;
 	
 	@ManyToOne

@@ -124,7 +124,7 @@ export class SalaDialogComponent implements OnInit {
           if (err.status === 409) {
 
             this.snackBar.open(
-              'Nije moguće obrisati film jer postoje aktivne projekcije ili rezervacije!',
+              'Nije moguće obrisati salu jer postoje aktivne projekcije ili rezervacije!',
               'Zatvori',
               { duration: 5000 }
             );
@@ -132,7 +132,7 @@ export class SalaDialogComponent implements OnInit {
           } else {
 
             this.snackBar.open(
-              'Došlo je do greške pri brisanju filma.',
+              'Došlo je do greške pri brisanju sale.',
               'Zatvori',
               { duration: 3000 }
             );

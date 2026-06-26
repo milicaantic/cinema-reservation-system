@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
 import rva.model.Sala;
 import rva.service.SalaService;
 
@@ -67,7 +68,7 @@ public class SalaController {
     }
 
     @PostMapping
-    public ResponseEntity<Sala> create(@RequestBody Sala sala) {
+    public ResponseEntity<Sala> create(@Valid @RequestBody Sala sala) {
 
         try {
 
@@ -82,13 +83,14 @@ public class SalaController {
     }
 
     @PutMapping
-    public ResponseEntity<Sala> update(@RequestBody Sala sala) {
+    public ResponseEntity<Sala> update(@Valid @RequestBody Sala sala) {
 
         try {
 
-            Sala izmenjena = salaService.update(sala);
+            Sala izmenjen = salaService.update(sala);
+            if (izmenjen == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            return new ResponseEntity<>(izmenjena, HttpStatus.OK);
+            return new ResponseEntity<>(izmenjen, HttpStatus.OK);
 
         } catch (Exception e) {
 
@@ -106,7 +108,11 @@ public class SalaController {
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+            throw new ResponseStatusException(
+            HttpStatus.CONFLICT,
+            "Nije moguće obrisati salu jer postoje povezane projekcije ili rezervacije."
+        );
         }
     }
     

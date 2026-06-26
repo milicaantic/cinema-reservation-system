@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.ResponseStatusException;
 import rva.model.Film;
 import rva.service.FilmService;
 
@@ -99,6 +100,7 @@ public class FilmController {
         try {
 
             Film izmenjen = filmService.update(film);
+            if (izmenjen == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             return new ResponseEntity<>(izmenjen, HttpStatus.OK);
 
@@ -119,7 +121,10 @@ public class FilmController {
 
         } catch (Exception e) {
 
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            throw new ResponseStatusException(
+            HttpStatus.CONFLICT,
+            "Nije moguće obrisati film jer postoje povezane projekcije ili rezervacije."
+        );
         }
     }
 }

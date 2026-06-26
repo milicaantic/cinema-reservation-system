@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Film {
@@ -13,9 +14,19 @@ public class Film {
 	@SequenceGenerator(name = "film_seq", sequenceName = "film_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_seq")
 	private long id;
+
+	@NotBlank
+	@Size(min = 2, max = 100)
 	private String naziv;
+
+	@Min(1) @Max(10)
 	private int recenzija;
+
+	@Min(1) @Max(600)
 	private int trajanje;
+
+	@NotBlank
+	@Size(min = 2, max = 50)
 	private String zanr;
 	
 	public Film() {

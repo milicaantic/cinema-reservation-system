@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
 import rva.model.Bioskop;
 import rva.service.BioskopService;
 
@@ -63,7 +64,7 @@ public class BioskopController {
     }
 
     @PostMapping
-    public ResponseEntity<Bioskop> create(@RequestBody Bioskop bioskop) {
+    public ResponseEntity<Bioskop> create(@Valid @RequestBody Bioskop bioskop) {
         try {
             Bioskop sacuvan = bioskopService.save(bioskop);
             return new ResponseEntity<>(sacuvan, HttpStatus.CREATED);
@@ -73,9 +74,11 @@ public class BioskopController {
     }
 
     @PutMapping
-    public ResponseEntity<Bioskop> update(@RequestBody Bioskop bioskop) {
+    public ResponseEntity<Bioskop> update(@Valid @RequestBody Bioskop bioskop) {
         try {
             Bioskop izmenjen = bioskopService.update(bioskop);
+            if (izmenjen == null) 
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(izmenjen, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -87,8 +90,12 @@ public class BioskopController {
         try {
             bioskopService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
+
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+             throw new ResponseStatusException(
+            HttpStatus.CONFLICT,
+            "Nije moguće obrisati bioskop jer postoje povezane sale."
+        );
         }
     }
 }
