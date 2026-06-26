@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
   ],
   templateUrl: './film-dialog.component.html',
-      styleUrl: './film-dialog.component.css'
+  styleUrl: './film-dialog.component.css'
 
 })
 export class FilmDialogComponent {
@@ -49,7 +49,7 @@ export class FilmDialogComponent {
       };
 
       this.filmService.create(noviFilm).subscribe({
-      next: () => {
+        next: () => {
 
           this.snackBar.open(
             'Film je uspešno dodat.',
@@ -85,7 +85,7 @@ export class FilmDialogComponent {
       });
     } else if (this.flag === 3) {
       this.filmService.delete(Number(this.data.id)).subscribe({
-           next: () => {
+        next: () => {
           this.snackBar.open(
             'Film je uspešno obrisan.',
             'Zatvori',
@@ -95,17 +95,29 @@ export class FilmDialogComponent {
           this.dialogRef.close(1);
         },
         error: (err: any) => {
-          console.error('Greška pri brisanju filma:', err);
 
-          this.snackBar.open(
-            'Nije moguće obrisati film jer postoje aktivne rezervacije za njega!',
-            'Zatvori',
-            {
-              duration: 5000,
-              horizontalPosition: 'center',
-              verticalPosition: 'bottom'
-            }
-          );
+          if (err.status === 409) {
+
+            this.snackBar.open(
+              'Nije moguće obrisati film jer postoje aktivne rezervacije za njega!',
+              'Zatvori',
+              {
+                duration: 5000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom'
+              }
+            );
+
+          } else {
+
+            console.error('Greška pri brisanju filma:', err);
+
+            this.snackBar.open(
+              'Došlo je do greške pri brisanju filma.',
+              'Zatvori',
+              { duration: 3000 }
+            );
+          }
         }
       });
     }

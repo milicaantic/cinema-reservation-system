@@ -49,11 +49,12 @@ export class SalaDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if ((this.data as any).fromBioskop) {
-    this.fromBioskop = true;
-  }
+      this.fromBioskop = true;
+    }
     this.bioskopService.getAll().subscribe({
-      next: (res) =>{ this.bioskopi = res,  
-          this.cdr.detectChanges();
+      next: (res) => {
+        this.bioskopi = res,
+        this.cdr.detectChanges();
       },
       error: (err: any) => console.error(err)
     });
@@ -120,11 +121,22 @@ export class SalaDialogComponent implements OnInit {
         error: (err: any) => {
           console.error('Greška pri brisanju sale:', err);
 
-          this.snackBar.open(
-            'Nije moguće obrisati salu jer za nju postoje aktivne rezervacije!',
-            'Zatvori',
-            { duration: 5000 }
-          );
+          if (err.status === 409) {
+
+            this.snackBar.open(
+              'Nije moguće obrisati film jer postoje aktivne projekcije ili rezervacije!',
+              'Zatvori',
+              { duration: 5000 }
+            );
+
+          } else {
+
+            this.snackBar.open(
+              'Došlo je do greške pri brisanju filma.',
+              'Zatvori',
+              { duration: 3000 }
+            );
+          }
         }
       });
     }

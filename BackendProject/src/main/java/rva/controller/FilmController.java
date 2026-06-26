@@ -119,7 +119,7 @@ public class FilmController {
 
         } catch (Exception e) {
 
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 }

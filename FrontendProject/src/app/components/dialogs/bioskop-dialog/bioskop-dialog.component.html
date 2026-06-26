@@ -1,7 +1,7 @@
 <div class="container">
   <h3 mat-dialog-title *ngIf="flag === 1" cdkFocusInitial>Dodavanje bioskopa</h3>
-  <h3 mat-dialog-title *ngIf="flag === 2" cdkFocusInitial>Modifikacija bioskopa: {{data.id}}</h3>
-  <h3 mat-dialog-title *ngIf="flag === 3" cdkFocusInitial>Brisanje bioskopa: {{data.id}}</h3>
+  <h3 mat-dialog-title *ngIf="flag === 2" >Modifikacija bioskopa: {{data.id}}</h3>
+  <h3 mat-dialog-title *ngIf="flag === 3" >Brisanje bioskopa: {{data.id}}</h3>
 
   <div mat-dialog-content>
     <form #forma="ngForm">
