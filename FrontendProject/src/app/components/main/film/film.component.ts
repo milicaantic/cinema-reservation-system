@@ -131,6 +131,9 @@ export class FilmComponent implements OnInit {
 
 
   otvoriDialog(flag: number, film?: Film): void {
+    this.nazivFilter = '';
+  this.zanrFilter = '';
+  this.recenzijaFilter = '';
     const dialogRef = this.dialog.open(FilmDialogComponent, {
       data: flag === 1 ? {} as Film : { ...film },
       width: '400px'

@@ -118,10 +118,12 @@ export class BioskopComponent implements OnInit {
   }
 
   izaberiBioskop(bioskop: Bioskop): void {
+  
+
     this.selektovaniBioskop = bioskop;
-this.salaService.findByBioskopId(bioskop.id).subscribe({
+    this.salaService.findByBioskopId(bioskop.id).subscribe({
         next: (sveSale) => {
-this.dataSourceSale.data = sveSale;
+        this.dataSourceSale.data = sveSale;
         this.dataSourceSale.paginator = this.paginatorSale;
         this.dataSourceSale.sort = this.sortSale;
         this.cdr.detectChanges();
@@ -131,6 +133,8 @@ this.dataSourceSale.data = sveSale;
   }
 
   otvoriDialog(flag: number, bioskop?: Bioskop): void {
+     this.nazivFilter = '';
+     this.adresaFilter = '';
 
     const dialogRef =
 

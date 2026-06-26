@@ -141,6 +141,7 @@ export class SalaComponent implements OnInit {
   }
 
   izaberiSalu(sala: Sala): void {
+    
     this.selektovanaSala = sala;
     this.rezervacijaService.findBySalaId(sala.id).subscribe({
   next: (sveRezervacije) => {
@@ -154,6 +155,8 @@ export class SalaComponent implements OnInit {
   }
 
   otvoriDialog(flag: number, sala?: Sala): void {
+    this.kapacitetFilter = '';
+  this.brojRedovaFilter = '';
     const dialogRef = this.dialog.open(SalaDialogComponent, {
       data: flag === 1 ? {} : { ...sala },
       width: '400px'

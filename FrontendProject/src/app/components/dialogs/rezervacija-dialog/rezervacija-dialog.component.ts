@@ -125,7 +125,9 @@
           id: this.data.id,
           brojOsoba: this.data.brojOsoba,
           cenaKarte: this.data.cenaKarte,
-          datum: this.data.datum,
+          datum: this.data.datum instanceof Date 
+            ? this.data.datum.toISOString().split('T')[0] 
+            : this.data.datum,
           placeno: statusPlacanja,
           film: this.data.film,
           sala: this.data.sala

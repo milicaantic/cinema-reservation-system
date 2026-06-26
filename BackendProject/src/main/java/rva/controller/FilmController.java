@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
 import rva.model.Film;
 import rva.service.FilmService;
 
@@ -80,7 +80,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public ResponseEntity<Film> create(@RequestBody Film film) {
+    public ResponseEntity<Film> create(@Valid @RequestBody Film film) {
 
         try {
 
@@ -95,7 +95,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public ResponseEntity<Film> update(@RequestBody Film film) {
+    public ResponseEntity<Film> update(@Valid @RequestBody Film film) {
 
         try {
 

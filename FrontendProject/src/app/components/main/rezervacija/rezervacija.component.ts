@@ -87,8 +87,8 @@ export class RezervacijaComponent implements OnInit {
 
     const vrednost = Number(this.brojOsobaFilter);
 
-      if (vrednost > 9999) {
-      this.brojOsobaFilter = "999";
+      if (vrednost > 1000) {
+      this.brojOsobaFilter = "1000";
     } else if (vrednost < 1) {
       this.brojOsobaFilter = "";
     } else {
@@ -167,6 +167,10 @@ export class RezervacijaComponent implements OnInit {
 }
 
   otvoriDialog(flag: number, rezervacija?: Rezervacija): void {
+
+     this.brojOsobaFilter = '';
+ this.datumFilter= null;
+  this.placenoFilter = '';
 
     if (flag === 2 && rezervacija) {
       const datum = new Date(rezervacija.datum as any);
