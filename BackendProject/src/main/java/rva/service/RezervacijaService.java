@@ -13,4 +13,6 @@ public interface RezervacijaService extends CrudService<Rezervacija, Long> {
 
     List<Rezervacija> findByBrojOsobaGreaterThan(int brojOsoba);
 
+    List<Rezervacija> findBySalaId(Long id);
+
 }

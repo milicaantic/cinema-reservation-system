@@ -119,9 +119,9 @@ export class BioskopComponent implements OnInit {
 
   izaberiBioskop(bioskop: Bioskop): void {
     this.selektovaniBioskop = bioskop;
-    this.salaService.getAll().subscribe({
-      next: (sveSale) => {
-        this.dataSourceSale.data = sveSale.filter(s => s.bioskop?.id === bioskop.id);
+this.salaService.findByBioskopId(bioskop.id).subscribe({
+        next: (sveSale) => {
+this.dataSourceSale.data = sveSale;
         this.dataSourceSale.paginator = this.paginatorSale;
         this.dataSourceSale.sort = this.sortSale;
         this.cdr.detectChanges();

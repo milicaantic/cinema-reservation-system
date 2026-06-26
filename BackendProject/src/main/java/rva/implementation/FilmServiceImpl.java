@@ -42,8 +42,7 @@ public class FilmServiceImpl implements FilmService {
             return filmRepository.save(film);
         }
 
-        throw new RuntimeException("Film not found");
-    }
+return null;    }
 
     @Override
     public void delete(Long id) {

@@ -9,4 +9,6 @@ public interface SalaService extends CrudService<Sala, Long> {
 
     List<Sala> findByBrojRedova(int brojRedova);
 
+    List<Sala> findByBioskopId(Long id);
+
 }

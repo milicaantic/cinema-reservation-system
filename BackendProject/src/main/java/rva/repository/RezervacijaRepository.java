@@ -17,4 +17,6 @@ public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long> 
 
     List<Rezervacija> findByBrojOsobaGreaterThan(int brojOsoba);
 
+    List<Rezervacija> findBySalaId(Long id);
+
 }

@@ -39,18 +39,17 @@ public class BioskopServiceImpl implements BioskopService {
         if (bioskopRepository.existsById(bioskop.getId())) {
             return bioskopRepository.save(bioskop);
         }
-        throw new RuntimeException("Bioskop not found");
-    }
+return null;    }
 
     @Override
     public void delete(Long id) {
         bioskopRepository.deleteById(id);
     }
 
-   @Override
-public List<Bioskop> findByNaziv(String naziv) {
-    return bioskopRepository.findByNazivContainingIgnoreCase(naziv);
-}
+    @Override
+    public List<Bioskop> findByNaziv(String naziv) {
+        return bioskopRepository.findByNazivContainingIgnoreCase(naziv);
+    }
 
     @Override
     public List<Bioskop> findByAdresaContaining(String adresa) {

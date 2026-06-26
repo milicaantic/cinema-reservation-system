@@ -110,5 +110,12 @@ public class SalaController {
         }
     }
     
+    @GetMapping("/bioskop/{id}")
+    public ResponseEntity<List<Sala>> findByBioskopId(@PathVariable Long id) {
+        List<Sala> lista = salaService.findByBioskopId(id);
+        if (lista.isEmpty()) 
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
 
 }

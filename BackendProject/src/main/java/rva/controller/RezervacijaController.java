@@ -117,5 +117,11 @@ public ResponseEntity<Rezervacija> update(@RequestBody Rezervacija r) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/sala/{id}")
+    public ResponseEntity<List<Rezervacija>> findBySalaId(@PathVariable Long id) {
+        List<Rezervacija> lista = rezervacijaService.findBySalaId(id);
+        if (lista.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
 
 }

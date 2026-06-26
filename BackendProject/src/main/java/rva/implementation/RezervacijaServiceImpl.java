@@ -77,4 +77,9 @@ public class RezervacijaServiceImpl implements RezervacijaService {
         return rezervacijaRepository.findByBrojOsobaGreaterThan(brojOsoba);
     }
 
+    @Override
+public List<Rezervacija> findBySalaId(Long id) {
+    return rezervacijaRepository.findBySalaId(id);
+}
+
 }

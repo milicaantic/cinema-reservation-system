@@ -42,7 +42,7 @@ public class SalaServiceImpl implements SalaService {
             return salaRepository.save(sala);
         }
 
-        throw new RuntimeException("Sala not found");
+        return null;    
     }
 
     @Override
@@ -60,4 +60,8 @@ public class SalaServiceImpl implements SalaService {
         return salaRepository.findByBrojRedova(brojRedova);
     }
 
+    @Override
+    public List<Sala> findByBioskopId(Long id) {
+        return salaRepository.findByBioskopId(id);
+    }
 }

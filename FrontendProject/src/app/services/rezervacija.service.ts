@@ -45,4 +45,8 @@ export class RezervacijaService {
     return this.http.get<Rezervacija[]>(`${this.apiUrl}/osobe/${brojOsoba}`
     );
   }
+
+  findBySalaId(salaId: number): Observable<Rezervacija[]> {
+  return this.http.get<Rezervacija[]>(`${this.apiUrl}/sala/${salaId}`);
+}
 }

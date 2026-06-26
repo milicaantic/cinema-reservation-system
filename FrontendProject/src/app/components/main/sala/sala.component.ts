@@ -142,9 +142,9 @@ export class SalaComponent implements OnInit {
 
   izaberiSalu(sala: Sala): void {
     this.selektovanaSala = sala;
-    this.rezervacijaService.getAll().subscribe({
-      next: (sveRezervacije) => {
-        this.dataSourceRezervacije.data = sveRezervacije.filter(r => r.sala?.id === sala.id);
+    this.rezervacijaService.findBySalaId(sala.id).subscribe({
+  next: (sveRezervacije) => {
+    this.dataSourceRezervacije.data = sveRezervacije;
         this.dataSourceRezervacije.paginator = this.paginatorRez;
         this.dataSourceRezervacije.sort = this.sortRezervacije;
         this.cdr.detectChanges();

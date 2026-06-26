@@ -41,4 +41,8 @@ export class SalaService {
       `${this.apiUrl}/redovi/${brojRedova}`
     );
   }
+  
+  findByBioskopId(bioskopId: number): Observable<Sala[]> {
+  return this.http.get<Sala[]>(`${this.apiUrl}/bioskop/${bioskopId}`);
+}
 }
