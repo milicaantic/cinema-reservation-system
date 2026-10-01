@@ -1,0 +1,26 @@
+[33m1a9d7a2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Izmena validacije i datuma
+[33mca33369[m Validacije u backend-u
+[33me80a128[m Ispravka testova
+[33mbdd98d2[m Skinuto pretrazivanje po id sa strane klijenta
+[33m30b47b6[m bp
+[33m64eee70[m Izmena validacije za kapacitet i zakljucavanje polja u dijalogu
+[33m6f89ed2[m Brisanje nepotrebnih stvari, uredjivanje css-a
+[33me2f324e[m Izmena validacija
+[33m0a9c38b[m Medjusobno iskljucivanje pretrazivanja
+[33md860c26[m Validacije, ispravka stranih kljuceva
+[33m9db085d[m Popravka
+[33mcb4e83b[m Dodato pretrazivanje
+[33me613fde[m Popravka crud operacija, sortiranje
+[33m7b06318[m Commit za pregled
+[33m73e8e0d[m Prikaz crud operacija
+[33m48a7ee3[m Frontend - modeli i servisi
+[33ma8e8afc[m Napravljen prazan projekat
+[33m88efca9[m Dodati testovi
+[33md93ef71[m Testovi
+[33m07ba89a[m Rezervacija CRUD implementation
+[33mbf97578[m Sala CRUD implementation
+[33m63e1371[m Film CRUD implementation
+[33mf236811[m Bioskop CRUD implementation
+[33m9a322ce[m Povezivanje i dodavanje u bazu
+[33mdf0d9d2[m Model klase
+[33m3a745f4[m Initial commit
